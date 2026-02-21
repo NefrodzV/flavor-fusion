@@ -1,2 +1,1 @@
-export { menuRouter } from "./menu-router.js";
-
+export { createMenuRouter } from './menu-router.js'

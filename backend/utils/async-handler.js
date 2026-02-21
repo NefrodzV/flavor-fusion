@@ -1,8 +1,8 @@
-export async function withAsyncHandler(handler) {
+export function withAsyncHandler(handler) {
     return async function (req, res, next) {
-        try{
+        try {
             await handler(req, res, next)
-        } catch(error){
+        } catch (error) {
             next(error)
         }
     }

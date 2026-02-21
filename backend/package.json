@@ -1,0 +1,33 @@
+{
+  "name": "flavor-fusion-backend",
+  "version": "1.0.0",
+  "description": "A backend for a restaurant website that will use express as the web application framework and postgres as the persistence layer.",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NefrodzV/flavor-fusion.git"
+  },
+  "keywords": [
+    "express",
+    "nodejs",
+    "postgres"
+  ],
+  "author": "Neftaly Rodriguez Vargas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NefrodzV/flavor-fusion/issues"
+  },
+  "homepage": "https://github.com/NefrodzV/flavor-fusion#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "pg": "^8.18.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

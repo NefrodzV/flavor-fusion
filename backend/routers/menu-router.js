@@ -1,9 +1,10 @@
 import { Router } from "express";
+import { withAsyncHandler } from "../middlewares";
 
-export const  menuRouter = Router()
+export const createMenuRouter = ({ menuController }) => {
+  const router = Router();
 
-menuRouter.get('/', (req, res) => {
-    return res.send("GET all menu items")
-})
+  router.get("/", withAsyncHandler(menuController.getAll));
 
-
+  return router;
+};

@@ -6,7 +6,7 @@ export const pool = new Pool({
     user: env.DATABASE_USER,
     password: env.DATABASE_PASSWORD,
     host: env.DATABASE_LOCALHOST,
-    database: env.DATABASE_NAME
+    database: env.DATABASE_NAME,
 })
 
 export async function withTransaction(cb) {
@@ -16,44 +16,40 @@ export async function withTransaction(cb) {
         const res = await cb(client)
         await client.query('COMMIT')
         return res
-    } catch(err) {
+    } catch (err) {
         await client.query('ROLLBACK')
         logError(`Transaction error`, err)
         throw err
-    } finally { 
+    } finally {
         client.release()
     }
 }
 
 export async function queryWithRetries(queryCb, retries = 4) {
-    const waitTimes =[0, 500, 1000, 2000, 4000]
-    if(retries > waitTimes.length) {
+    const waitTimes = [0, 500, 1000, 2000, 4000]
+    if (retries > waitTimes.length) {
         throw new Error(`You can only retry ${waitTimes.length} max.`)
     }
 
-    for(let retry = 0; retry < retries; retry++){
-        try{
-            if(waitTimes[retry]) {
+    for (let retry = 0; retry < retries; retry++) {
+        try {
+            if (waitTimes[retry]) {
                 await sleep(waitTimes[retry])
             }
             return await queryCb()
-                
-        } catch(err) {
+        } catch (err) {
             logError('Query with retries error', {
-                code: err.code, 
+                code: err.code,
                 message: e.message,
-                name: err.message
+                name: err.message,
             })
-             const pgErrors = new Set([
+            const pgErrors = new Set([
                 'ECONNREFUSED',
                 'ETIMEDOUT',
                 'ECONNRESET',
-                '57P03', 
+                '57P03',
             ])
-           if(!pgErrors.has(err.code)) throw e
-
+            if (!pgErrors.has(err.code)) throw e
         }
-    } 
+    }
 }
-
-

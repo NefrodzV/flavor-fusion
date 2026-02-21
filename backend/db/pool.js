@@ -40,7 +40,7 @@ export async function queryWithRetries(queryCb, retries = 4) {
         } catch (err) {
             logError('Query with retries error', {
                 code: err.code,
-                message: e.message,
+                message: err.message,
                 name: err.message,
             })
             const pgErrors = new Set([

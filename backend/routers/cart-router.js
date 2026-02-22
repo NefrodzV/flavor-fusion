@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import { validateAddCartItem } from '../middlewares/cart-validation-middleware.js'
 import { withAsyncHandler } from '../utils/async-handler.js'
 export function createCartRouter({ cartController, authenticateJWT }) {
     const router = Router()
@@ -7,7 +8,11 @@ export function createCartRouter({ cartController, authenticateJWT }) {
 
     router.get('/', withAsyncHandler(cartController.getCart))
 
-    router.post('/items/:menuItemId', withAsyncHandler(cartController.addItem))
+    router.post(
+        '/items/:menuItemId',
+        validateAddCartItem,
+        withAsyncHandler(cartController.addItem)
+    )
 
     router.patch(
         '/items/:menuItemId',

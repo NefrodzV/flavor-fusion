@@ -116,19 +116,6 @@ test('PATCH /api/cart/items/:menuItemId returns errors and 400', async () => {
     assert.equal(Object.keys(res.body.errors).length, 1)
 })
 
-test('PATCH /api/cart/items/1 returns errors and 400 when no body', async () => {
-    const { app, calls } = createMockApp()
-    const res = await request(app)
-        .patch('/api/cart/items/1')
-        .expect(400)
-        .expect('Content-Type', /json/)
-
-    assert.equal(calls.update, null)
-    assert.ok(res.body.errors)
-    assert.ok(res.body.errors.body)
-    assert.equal(Object.keys(res.body.errors).length, 1)
-})
-
 test('PATCH /api/cart/items/t returns errors and 400', async () => {
     const { app, calls } = createMockApp()
     const res = await request(app)

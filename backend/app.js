@@ -11,7 +11,12 @@ export function createApp({ menuRouter = () => {}, cartRouter = () => {} }) {
 
     app.use((err, req, res, next) => {
         logError(err)
-        return res.status(500).json({ error: 'Internal Server Error' })
+        return res
+            .status(500)
+            .json({
+                error: err.message || 'Internal Server Error',
+                stack: err.stack,
+            })
     })
     return app
 }

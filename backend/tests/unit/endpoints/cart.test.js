@@ -7,22 +7,20 @@ import { createCartRouter } from '../../../routers/cart-router.js'
 
 // Mocking app
 const createMockApp = (fakeRepo) => {
-    let upsertWasCalled = false
-    let updateWasCalled = false
-    let removeWasCalled = false
+    const calls = { upsert: null, update: null, remove: null }
     if (!fakeRepo)
         fakeRepo = {
             getCartByUserId: async () => ({ items: [] }),
-            upsertCartItem: async () => {
-                upsertWasCalled = true
+            upsertCartItem: async (userId, menuItemId, quantity) => {
+                calls.upsert = { userId, menuItemId, quantity }
                 return true
             },
             setCartItemQuantity: async () => {
-                updateWasCalled = true
+                calls.update = {}
                 return true
             },
             removeCartItem: async () => {
-                removeWasCalled = true
+                remove = {}
                 return true
             },
         }
@@ -43,11 +41,7 @@ const createMockApp = (fakeRepo) => {
 
     return {
         app,
-        flags: {
-            updateWasCalled,
-            upsertWasCalled,
-            removeWasCalled,
-        },
+        calls,
     }
 }
 
@@ -61,25 +55,30 @@ test('GET /api/cart returns cart object and 200', async () => {
     assert.ok(res.body.cart)
 })
 
-test('POST /api/cart returns cart object and 201 for creating a resource', async () => {
-    const { app } = createMockApp()
+test('POST /api/cart returns cart object and 200', async () => {
+    const { app, calls } = createMockApp()
     const res = await request(app)
         .post('/api/cart/items')
         .send({ menuItemId: 1, quantity: 1 })
         .expect(200)
         .expect('Content-Type', /json/)
 
+    assert.deepStrictEqual(calls.upsert, {
+        userId: 5,
+        menuItemId: 1,
+        quantity: 1,
+    })
     assert.ok(Array.isArray(res.body.cart.items))
 })
 //
 test('POST /api/cart/items returns errors object with messages', async () => {
-    const { app, flags } = createMockApp()
+    const { app, calls } = createMockApp()
     const res = await request(app)
         .post('/api/cart/items')
         .send({ menuItemId: 0, quantity: 0 })
         .expect('Content-Type', /json/)
         .expect(400)
-    assert.equal(flags.upsertWasCalled, false)
+    assert.deepEqual(calls.upsert, null)
     assert.ok(res.body.errors)
     assert.equal(Object.keys(res.body.errors).length, 2)
 })

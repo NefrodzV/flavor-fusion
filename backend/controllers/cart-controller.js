@@ -16,8 +16,8 @@ export function createCartController({ cartRepository }) {
                 quantity
             )
             const cart = await cartRepository.getCartByUserId(userId)
-            const status = created ? 201 : 200
-            return res.status(status).json({ cart })
+
+            return res.status(200).json({ cart })
         },
 
         updateItemQuantity: async (req, res) => {
@@ -32,7 +32,7 @@ export function createCartController({ cartRepository }) {
             if (!updated) {
                 return res.status(404).json({ error: 'Not found' })
             }
-            const cart = await cartRepository.getCartByUserId(id)
+            const cart = await cartRepository.getCartByUserId(userId)
             return res.status(200).json({ cart })
         },
 

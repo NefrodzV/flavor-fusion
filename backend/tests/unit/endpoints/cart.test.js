@@ -84,6 +84,17 @@ test('POST /api/cart/items returns errors object with messages', async () => {
     assert.equal(Object.keys(res.body.errors).length, 2)
 })
 
+test('POST /api/cart/items fails with undefined body', async () => {
+    const { app, calls } = createMockApp()
+    const res = await request(app)
+        .post('/api/cart/items')
+        .expect('Content-Type', /json/)
+        .expect(400)
+    assert.deepEqual(calls.upsert, null)
+    assert.ok(res.body.errors)
+    assert.equal(Object.keys(res.body.errors).length, 2)
+})
+
 test('PATCH/api/cart/items/:menuItemId returns cart and status 200', async () => {
     const { app, calls } = createMockApp()
     const res = await request(app)
@@ -103,7 +114,7 @@ test('PATCH/api/cart/items/:menuItemId returns cart and status 200', async () =>
 })
 
 // TODO: DO TEST TO validate patch
-test('PATCH /api/cart/items/:menuItemId returns errors and 400', async () => {
+test('PATCH /api/cart/items/1 returns errors and 400', async () => {
     const { app, calls } = createMockApp()
     const res = await request(app)
         .patch('/api/cart/items/1')

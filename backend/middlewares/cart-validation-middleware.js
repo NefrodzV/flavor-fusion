@@ -2,7 +2,7 @@ import { isPositiveInt } from '../utils/number.js'
 import { isDefined } from '../utils/validation.js'
 
 export function validateAddCartItem(req, res, next) {
-    const menuItemId = Number(req.body.menuItemId)
+    const menuItemId = Number(req.body?.menuItemId)
     const quantity = Number(req.body?.quantity)
     const errors = {}
 

@@ -1,5 +1,8 @@
 import { Router } from 'express'
-import { validateAddCartItem } from '../middlewares/cart-validation-middleware.js'
+import {
+    validateAddCartItem,
+    validateUpdateItemQuantity,
+} from '../middlewares/cart-validation-middleware.js'
 import { withAsyncHandler } from '../utils/async-handler.js'
 export function createCartRouter({
     cartController,
@@ -19,6 +22,7 @@ export function createCartRouter({
 
     router.patch(
         '/items/:menuItemId',
+        validateUpdateItemQuantity,
         withAsyncHandler(cartController.updateItemQuantity)
     )
 

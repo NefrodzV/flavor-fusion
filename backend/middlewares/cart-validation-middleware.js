@@ -13,7 +13,7 @@ export function validateAddCartItem(req, res, next) {
         errors.quantity = 'Invalid quantity.'
     }
 
-    if (Object.keys(errors).length > 0) {
+    if (Object.keys(errors).length) {
         return res.status(400).json({ errors })
     }
 

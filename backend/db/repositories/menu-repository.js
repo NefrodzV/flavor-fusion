@@ -1,1 +1,1 @@
-export async function name(params) {}
+export async function getAll() {}

@@ -20,8 +20,8 @@ const createMockApp = (fakeRepo) => {
                 calls.update = { userId, menuItemId, quantity }
                 return true
             },
-            removeCartItem: async () => {
-                remove = {}
+            removeCartItem: async (userId, menuItemId) => {
+                calls.remove = { userId, menuItemId }
                 return true
             },
         }
@@ -95,7 +95,7 @@ test('POST /api/cart/items fails with undefined body', async () => {
     assert.equal(Object.keys(res.body.errors).length, 2)
 })
 
-test('PATCH/api/cart/items/:menuItemId returns cart and status 200', async () => {
+test('PATCH /api/cart/items/:menuItemId returns cart and status 200', async () => {
     const { app, calls } = createMockApp()
     const res = await request(app)
         .patch('/api/cart/items/1')
@@ -137,4 +137,51 @@ test('PATCH /api/cart/items/t returns errors and 400', async () => {
     assert.equal(calls.update, null)
     assert.ok(res.body.errors)
     assert.ok(res.body.errors.menuItemId)
+})
+
+test('PATCH /api/cart/items/t returns errors and 404', async () => {
+    const { app, calls } = createMockApp({
+        setCartItemQuantity: () => false,
+    })
+    const res = await request(app)
+        .patch('/api/cart/items/1')
+        .send({ quantity: 1 })
+        .expect(404)
+        .expect('Content-Type', /json/)
+    assert.ok(res.body.error)
+})
+
+test('DELETE /api/cart/item/1 returns cart and 200', async () => {
+    const { app, calls } = createMockApp()
+    const res = await request(app)
+        .delete('/api/cart/items/1')
+        .expect('Content-Type', /json/)
+        .expect(200)
+
+    assert.deepStrictEqual(calls.remove, { userId: 5, menuItemId: 1 })
+    assert.ok(res.body.cart)
+    assert.ok(Array.isArray(res.body.cart.items))
+})
+
+test('DELETE /api/cart/item/t returns errors and 400', async () => {
+    const { app, calls } = createMockApp()
+    const res = await request(app)
+        .delete('/api/cart/items/t')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+    assert.deepStrictEqual(calls.remove, null)
+    assert.ok(res.body.errors)
+    assert.ok(res.body.errors.menuItemId)
+})
+test('DELETE /api/cart/item/1 returns not found and 404', async () => {
+    const { app } = createMockApp({
+        removeCartItem: (userId, menuItemId) => false,
+    })
+    const res = await request(app)
+        .delete('/api/cart/items/1')
+        .expect('Content-Type', /json/)
+        .expect(404)
+
+    assert.ok(res.body.error)
 })

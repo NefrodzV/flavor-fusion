@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import {
     validateAddCartItem,
+    validateDeleteCartItem,
     validateUpdateItemQuantity,
 } from '../middlewares/cart-validation-middleware.js'
 import { withAsyncHandler } from '../utils/async-handler.js'
@@ -28,6 +29,7 @@ export function createCartRouter({
 
     router.delete(
         '/items/:menuItemId',
+        validateDeleteCartItem,
         withAsyncHandler(cartController.removeItem)
     )
 

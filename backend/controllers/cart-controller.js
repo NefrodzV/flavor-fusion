@@ -36,9 +36,9 @@ export function createCartController({ cartRepository }) {
             return res.status(200).json({ cart })
         },
 
-        deleteItem: async (req, res) => {
+        removeItem: async (req, res) => {
             const userId = req.user.id
-            const menuItemId = req.params.menuItemId
+            const menuItemId = req.params?.menuItemId
             const removed = await cartRepository.removeCartItem(
                 userId,
                 menuItemId
@@ -46,7 +46,7 @@ export function createCartController({ cartRepository }) {
             if (!removed) {
                 return res.status(404).json({ error: 'Not found' })
             }
-            const cart = await cartRepository.getCartByUserId(id)
+            const cart = await cartRepository.getCartByUserId(userId)
             return res.status(200).json({ cart })
         },
     }

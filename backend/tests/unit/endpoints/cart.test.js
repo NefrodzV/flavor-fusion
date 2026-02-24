@@ -8,7 +8,7 @@ import { logError } from '../../../utils/logger.js'
 
 // Mocking app
 const createMockApp = (fakeRepo) => {
-    const calls = { upsert: null, update: null, remove: null }
+    const calls = { upsert: null, update: null, delete: null }
     if (!fakeRepo)
         fakeRepo = {
             getCartByUserId: async () => ({ items: [] }),
@@ -20,8 +20,8 @@ const createMockApp = (fakeRepo) => {
                 calls.update = { userId, menuItemId, quantity }
                 return true
             },
-            removeCartItem: async (userId, menuItemId) => {
-                calls.remove = { userId, menuItemId }
+            deleteCartItem: async (userId, menuItemId) => {
+                calls.delete = { userId, menuItemId }
                 return true
             },
         }
@@ -158,7 +158,7 @@ test('DELETE /api/cart/item/1 returns cart and 200', async () => {
         .expect('Content-Type', /json/)
         .expect(200)
 
-    assert.deepStrictEqual(calls.remove, { userId: 5, menuItemId: 1 })
+    assert.deepStrictEqual(calls.delete, { userId: 5, menuItemId: 1 })
     assert.ok(res.body.cart)
     assert.ok(Array.isArray(res.body.cart.items))
 })
@@ -170,13 +170,13 @@ test('DELETE /api/cart/item/t returns errors and 400', async () => {
         .expect('Content-Type', /json/)
         .expect(400)
 
-    assert.deepStrictEqual(calls.remove, null)
+    assert.deepStrictEqual(calls.delete, null)
     assert.ok(res.body.errors)
     assert.ok(res.body.errors.menuItemId)
 })
 test('DELETE /api/cart/item/1 returns not found and 404', async () => {
     const { app } = createMockApp({
-        removeCartItem: (userId, menuItemId) => false,
+        deleteCartItem: (userId, menuItemId) => false,
     })
     const res = await request(app)
         .delete('/api/cart/items/1')

@@ -39,7 +39,7 @@ export function createCartController({ cartRepository }) {
         removeItem: async (req, res) => {
             const userId = req.user.id
             const menuItemId = req.params?.menuItemId
-            const removed = await cartRepository.removeCartItem(
+            const removed = await cartRepository.deleteCartItem(
                 userId,
                 menuItemId
             )

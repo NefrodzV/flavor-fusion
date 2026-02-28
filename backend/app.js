@@ -29,6 +29,7 @@ export function createApp({
         return res.status(status).json({
             error: err.message || 'Internal Server Error',
             stack: err.stack,
+            errors: err.errors,
         })
     })
     return app

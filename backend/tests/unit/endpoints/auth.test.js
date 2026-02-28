@@ -65,6 +65,7 @@ test('/api/auth/register throws error and 400', async () => {
         .expect('Content-Type', /json/)
         .expect(400)
 
+    assert.equal(calls.register, null)
     assert.ok(res.body.errors)
 })
 
@@ -77,4 +78,15 @@ test('/api/auth/me return user and 200', async () => {
 
     assert.deepStrictEqual(calls.me, { userId: 5 })
     assert.ok(res.body.user)
+})
+
+test('/api/auth/login throws errors and 400', async () => {
+    const { app, calls } = createFakeApp()
+    const res = await request(app)
+        .post('/api/auth/login')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+    assert.equal(calls.login, null)
+    assert.ok(res.body.errors)
 })

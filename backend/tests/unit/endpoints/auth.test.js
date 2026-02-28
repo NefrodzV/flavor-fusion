@@ -4,6 +4,8 @@ import assert from 'node:assert'
 import { createApp } from '../../../app.js'
 import { createAuthController } from '../../../controllers/auth-controller.js'
 import { createAuthRouter } from '../../../routers/auth-router.js'
+import { InvalidCredentialsError } from '../../../errors/incorrect-email-or-password-error.js'
+import { EmailAlreadyExistsError } from '../../../errors/email-already-exits-error.js'
 
 const createFakeApp = (authService) => {
     const calls = { register: null, login: null, me: null }
@@ -69,6 +71,25 @@ test('/api/auth/register throws error and 400', async () => {
     assert.ok(res.body.errors)
 })
 
+test('/api/auth/register throws EmailAlreadyExistsError', async () => {
+    const { app } = createFakeApp({
+        register: async () => {
+            throw new EmailAlreadyExistsError()
+        },
+    })
+
+    const res = await request(app)
+        .post('/api/auth/register')
+        .send({
+            name: 'aism',
+            lastName: 'asihd',
+            email: 'asdjsd@gmail.com',
+            password: '12344567',
+        })
+        .expect('Content-Type', /json/)
+        .expect(409)``
+})
+
 test('/api/auth/me return user and 200', async () => {
     const { app, calls } = createFakeApp()
     const res = await request(app)
@@ -89,4 +110,20 @@ test('/api/auth/login throws errors and 400', async () => {
 
     assert.equal(calls.login, null)
     assert.ok(res.body.errors)
+})
+
+test('/api/auth/login throws InvalidCredentials error', async () => {
+    const { app, calls } = createFakeApp({
+        login: async () => {
+            throw new InvalidCredentialsError()
+        },
+    })
+    const res = await request(app)
+        .post('/api/auth/login')
+        .send({ password: 'Neftaly', email: 'neftaly@gmail.com' })
+        .expect('Content-Type', /json/)
+        .expect(401)
+
+    assert.equal(calls.login, null)
+    assert.ok(res.body.error)
 })

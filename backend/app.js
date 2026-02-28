@@ -7,6 +7,7 @@ export function createApp({
     menuRouter = () => {},
     cartRouter = () => {},
     authRouter = () => {},
+    orderRouter = () => {},
 }) {
     const app = express()
 
@@ -22,6 +23,7 @@ export function createApp({
     app.use('/api/menu', menuRouter)
     app.use('/api/cart', cartRouter)
     app.use('/api/auth', authRouter)
+    app.use('/api/orders', orderRouter)
 
     app.use((err, req, res, next) => {
         logError(err)

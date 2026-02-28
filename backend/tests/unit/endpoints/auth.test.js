@@ -87,7 +87,7 @@ test('/api/auth/register throws EmailAlreadyExistsError', async () => {
             password: '12344567',
         })
         .expect('Content-Type', /json/)
-        .expect(409)``
+        .expect(409)
 })
 
 test('/api/auth/me return user and 200', async () => {
@@ -123,7 +123,6 @@ test('/api/auth/login throws InvalidCredentials error', async () => {
         .send({ password: 'Neftaly', email: 'neftaly@gmail.com' })
         .expect('Content-Type', /json/)
         .expect(401)
-
     assert.equal(calls.login, null)
     assert.ok(res.body.error)
 })

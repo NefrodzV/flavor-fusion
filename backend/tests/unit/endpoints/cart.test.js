@@ -4,29 +4,29 @@ import assert from 'node:assert'
 import { createApp } from '../../../app.js'
 import { createCartController } from '../../../controllers/cart-controller.js'
 import { createCartRouter } from '../../../routers/cart-router.js'
-import { logError } from '../../../utils/logger.js'
+import { NotFoundError } from '../../../errors/not-found-error.js'
 
 // Mocking app
-const createMockApp = (fakeRepo) => {
+const createMockApp = (fakeService) => {
     const calls = { upsert: null, update: null, delete: null }
-    if (!fakeRepo)
-        fakeRepo = {
-            getCartByUserId: async () => ({ items: [] }),
-            upsertCartItem: async (userId, menuItemId, quantity) => {
+    if (!fakeService)
+        fakeService = {
+            getCart: async () => ({ items: [] }),
+            addItem: async (userId, menuItemId, quantity) => {
                 calls.upsert = { userId, menuItemId, quantity }
-                return true
+                return { items: [] }
             },
-            setCartItemQuantity: async (userId, menuItemId, quantity) => {
+            updateItemQuantity: async (userId, menuItemId, quantity) => {
                 calls.update = { userId, menuItemId, quantity }
-                return true
+                return { items: [] }
             },
-            deleteCartItem: async (userId, menuItemId) => {
+            removeItem: async (userId, menuItemId) => {
                 calls.delete = { userId, menuItemId }
-                return true
+                return { items: [] }
             },
         }
 
-    const cartController = createCartController({ cartRepository: fakeRepo })
+    const cartController = createCartController(fakeService)
     // Simulating jwt validation
     const authenticate =
         (userId = 1) =>
@@ -141,7 +141,9 @@ test('PATCH /api/cart/items/t returns errors and 400', async () => {
 
 test('PATCH /api/cart/items/t returns errors and 404', async () => {
     const { app, calls } = createMockApp({
-        setCartItemQuantity: () => false,
+        updateItemQuantity: async () => {
+            throw new NotFoundError()
+        },
     })
     const res = await request(app)
         .patch('/api/cart/items/1')
@@ -176,7 +178,9 @@ test('DELETE /api/cart/item/t returns errors and 400', async () => {
 })
 test('DELETE /api/cart/item/1 returns not found and 404', async () => {
     const { app } = createMockApp({
-        deleteCartItem: (userId, menuItemId) => false,
+        removeItem: (userId, menuItemId) => {
+            throw new NotFoundError()
+        },
     })
     const res = await request(app)
         .delete('/api/cart/items/1')

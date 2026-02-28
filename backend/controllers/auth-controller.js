@@ -24,6 +24,7 @@ export function createAuthController(authService) {
             res.cookie('flavor_fusion_session', result.token, COOKIE_OPTIONS)
 
             return res.status(201).json({
+                user: result.user,
                 message: `Registration successful`,
             })
         },
@@ -43,6 +44,12 @@ export function createAuthController(authService) {
         logout: (req, res) => {
             res.clearCookie('flavor_fusion_session', COOKIE_OPTIONS)
             return res.json({ message: 'You have logged out.' })
+        },
+
+        getMe: async (req, res) => {
+            const userId = req.user.id
+            const user = await authService.getCurrentUser(userId)
+            return res.status(200).json({ user })
         },
     }
 }

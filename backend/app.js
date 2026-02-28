@@ -3,7 +3,11 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import { logError } from './utils/index.js'
 
-export function createApp({ menuRouter = () => {}, cartRouter = () => {} }) {
+export function createApp({
+    menuRouter = () => {},
+    cartRouter = () => {},
+    authRouter = () => {},
+}) {
     const app = express()
 
     app.use(
@@ -17,11 +21,12 @@ export function createApp({ menuRouter = () => {}, cartRouter = () => {} }) {
 
     app.use('/api/menu', menuRouter)
     app.use('/api/cart', cartRouter)
-    app.use('/api/auth')
+    app.use('/api/auth', authRouter)
 
     app.use((err, req, res, next) => {
         logError(err)
-        return res.status(500).json({
+        const status = err.statusCode || 500
+        return res.status(status).json({
             error: err.message || 'Internal Server Error',
             stack: err.stack,
         })

@@ -26,12 +26,12 @@ export function createApp({
     app.use('/api/orders', orderRouter)
 
     app.use((err, req, res, next) => {
-        logError(err)
         const status = err.statusCode || 500
         return res.status(status).json({
-            error: err.message || 'Internal Server Error',
-            stack: err.stack,
-            errors: err.errors,
+            error: {
+                message: err.message || 'Internal Server Error',
+                errors: err.errors || undefined,
+            },
         })
     })
     return app

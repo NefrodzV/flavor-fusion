@@ -3,7 +3,7 @@ import { isPositiveInt } from '../utils/number.js'
 
 export function validateCancelOrder(req, _res, next) {
     const rawOrderId = req.params?.orderId
-    if (!rawOrderId) {
+    if (rawOrderId == null) {
         return next(
             new DataIsInvalidError(undefined, {
                 orderId: 'Param order id is required.',

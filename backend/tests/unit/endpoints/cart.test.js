@@ -80,8 +80,8 @@ test('POST /api/cart/items returns errors object with messages', async () => {
         .expect('Content-Type', /json/)
         .expect(400)
     assert.deepEqual(calls.upsert, null)
-    assert.ok(res.body.errors)
-    assert.equal(Object.keys(res.body.errors).length, 2)
+    assert.ok(res.body.error)
+    assert.equal(Object.keys(res.body.error.errors).length, 2)
 })
 
 test('POST /api/cart/items fails with undefined body', async () => {
@@ -91,8 +91,8 @@ test('POST /api/cart/items fails with undefined body', async () => {
         .expect('Content-Type', /json/)
         .expect(400)
     assert.deepEqual(calls.upsert, null)
-    assert.ok(res.body.errors)
-    assert.equal(Object.keys(res.body.errors).length, 2)
+    assert.ok(res.body.error)
+    assert.equal(Object.keys(res.body.error.errors).length, 2)
 })
 
 test('PATCH /api/cart/items/:menuItemId returns cart and status 200', async () => {
@@ -123,8 +123,8 @@ test('PATCH /api/cart/items/1 returns errors and 400', async () => {
         .expect('Content-Type', /json/)
 
     assert.equal(calls.update, null)
-    assert.ok(res.body.errors)
-    assert.equal(Object.keys(res.body.errors).length, 1)
+    assert.ok(res.body.error)
+    assert.equal(Object.keys(res.body.error.errors).length, 1)
 })
 
 test('PATCH /api/cart/items/t returns errors and 400', async () => {
@@ -135,8 +135,8 @@ test('PATCH /api/cart/items/t returns errors and 400', async () => {
         .expect(400)
         .expect('Content-Type', /json/)
     assert.equal(calls.update, null)
-    assert.ok(res.body.errors)
-    assert.ok(res.body.errors.menuItemId)
+    assert.ok(res.body.error)
+    assert.ok(res.body.error.errors.menuItemId)
 })
 
 test('PATCH /api/cart/items/t returns errors and 404', async () => {
@@ -173,8 +173,8 @@ test('DELETE /api/cart/item/t returns errors and 400', async () => {
         .expect(400)
 
     assert.deepStrictEqual(calls.delete, null)
-    assert.ok(res.body.errors)
-    assert.ok(res.body.errors.menuItemId)
+    assert.ok(res.body.error)
+    assert.ok(res.body.error.errors.menuItemId)
 })
 test('DELETE /api/cart/item/1 returns not found and 404', async () => {
     const { app } = createMockApp({

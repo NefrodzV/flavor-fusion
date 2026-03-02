@@ -28,7 +28,7 @@ function mockApp(fakeOrderService) {
     }
 
     const orderController = createOrderController(fakeOrderService)
-    const fakeRequireAuth = (req, res, next) => {
+    const fakeRequireAuth = (req, _res, next) => {
         req.user = { id: 5 }
         next()
     }

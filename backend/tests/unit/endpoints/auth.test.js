@@ -68,7 +68,7 @@ test('/api/auth/register throws error and 400', async () => {
         .expect(400)
 
     assert.equal(calls.register, null)
-    assert.ok(res.body.errors)
+    assert.ok(res.body.error)
 })
 
 test('/api/auth/register throws EmailAlreadyExistsError', async () => {
@@ -109,7 +109,7 @@ test('/api/auth/login throws errors and 400', async () => {
         .expect(400)
 
     assert.equal(calls.login, null)
-    assert.ok(res.body.errors)
+    assert.ok(res.body.error)
 })
 
 test('/api/auth/login throws InvalidCredentials error', async () => {

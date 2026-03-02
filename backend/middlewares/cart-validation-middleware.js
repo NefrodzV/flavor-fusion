@@ -49,7 +49,7 @@ export function validateAddCartItem(req, res, next) {
     next()
 }
 
-export function validateUpdateItemQuantity(req, res, next) {
+export function validateUpdateItemQuantity(req, _res, next) {
     const rawMenuItemId = req.params.menuItemId
     const rawQuantity = req.body?.quantity
     const errors = {}
@@ -96,7 +96,7 @@ export function validateUpdateItemQuantity(req, res, next) {
     next()
 }
 
-export function validateDeleteCartItem(req, res, next) {
+export function validateDeleteCartItem(req, _res, next) {
     const rawMenuItemId = req.params.menuItemId
 
     const errors = {}
@@ -120,7 +120,7 @@ export function validateDeleteCartItem(req, res, next) {
     }
 
     if (!isPositiveInt(menuItemId)) {
-        errors.menuItemId = 'Invalid menu item id'
+        errors.menuItemId = 'Menu item id must be a positive integer.'
     }
 
     if (Object.keys(errors).length) {

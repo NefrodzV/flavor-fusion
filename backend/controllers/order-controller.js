@@ -2,7 +2,7 @@ export function createOrderController(orderService) {
     return {
         makeOrder: async (req, res) => {
             const userId = req.user.id
-            const order = await orderService.createOrder(userId)
+            const order = await orderService.placeOrder(userId)
             return res.status(201).json({ order })
         },
 

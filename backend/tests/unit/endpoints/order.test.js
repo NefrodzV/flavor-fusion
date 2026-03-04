@@ -12,7 +12,7 @@ function mockApp(fakeOrderService) {
     const calls = { create: null, cancel: null, get: null }
     if (!fakeOrderService) {
         fakeOrderService = {
-            createOrder: (userId) => {
+            placeOrder: (userId) => {
                 calls.create = { userId }
                 return {}
             },

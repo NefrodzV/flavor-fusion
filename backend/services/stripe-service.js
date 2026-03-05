@@ -14,7 +14,11 @@ export function createStripePaymentProvider(SECRET, FRONTEND_DOMAIN) {
     async function createCheckoutSession(order) {
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
-            line_items: order.items,
+            // Making correct mapping
+            line_items: order.items.map((i) => ({
+                unit_amount: i.priceCents,
+                quantity: i.quantity,
+            })),
             mode: 'payment',
             currency: 'usd',
             success_url: `${FRONTEND_DOMAIN}/checkout?success=true`,

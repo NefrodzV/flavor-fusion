@@ -1,7 +1,7 @@
-import { NotFoundError } from '../errors/not-found-error'
+import { NotFoundError } from '../errors/not-found-error.js'
 import { OrderNotCancelableError } from '../errors/order-not-cancelable-error.js'
 export function createOrderService({
-    pool,
+    db,
     withTransaction,
     createOrderRepository,
     createCartRepository,
@@ -10,23 +10,31 @@ export function createOrderService({
     return {
         // TODO: CREATE REPOS WITH FACTORY FUNCTIONS
         placeOrder: async (userId) => {
-            withTransaction((client) => {})
-            const cartItems = await cartRepository.getCartItems(userId)
-            // DO THIS WITH TRANSACTION
+            const res = await withTransaction(db, async (client) => {
+                const cartRepository = createCartRepository(client)
+                const orderRepository = createOrderRepository(client)
 
-            const order = await orderRepository.insertOrder(userId)
-            const orderItems = []
+                const cartItems = await cartRepository.getCartItems(userId)
+                const order = await orderRepository.createOrder(userId)
 
-            for (let i = 0; i < cartItems.length; i++) {
-                const cartItem = cartItems[1]
-                const orderItem = await orderRepository.createOrderItem(
-                    order.id,
-                    cartItem.menu_item_id,
-                    quantity,
-                    cartItem.line_total
-                )
-                orderItem.push(orderItem)
-            }
+                const orderItems = []
+
+                for (const item of cartItems) {
+                    const orderItem = await orderRepository.createOrderItem(
+                        order.id,
+                        item.menuItemId,
+                        item.quantity,
+                        item.priceCents
+                    )
+                    orderItems.push(orderItem)
+                }
+
+                return { order: { ...order, items: orderItems } }
+            })
+
+            // After order and order items have been created
+            const sessionUrl = await stripeService.createCheckoutSession(res)
+            return sessionUrl
         },
         cancelOrder: async (orderId) => {
             const order = await orderRepository.getById(orderId)

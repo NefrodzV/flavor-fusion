@@ -9,8 +9,8 @@ export const pool = new Pool({
     database: env.DATABASE_NAME,
 })
 
-export async function withTransaction(cb) {
-    const client = await pool.connect()
+export async function withTransaction(db, cb) {
+    const client = await db.connect()
     try {
         await client.query(`BEGIN`)
         const res = await cb(client)

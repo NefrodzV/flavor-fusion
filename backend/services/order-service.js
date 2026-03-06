@@ -1,3 +1,4 @@
+import { AppError } from '../errors/app-error.js'
 import { NotFoundError } from '../errors/not-found-error.js'
 import { OrderNotCancelableError } from '../errors/order-not-cancelable-error.js'
 export function createOrderService({
@@ -14,7 +15,11 @@ export function createOrderService({
                 const cartRepository = createCartRepository(client)
                 const orderRepository = createOrderRepository(client)
 
-                const cartItems = await cartRepository.getCartItems(userId)
+                const cartItems =
+                    await cartRepository.getCartItemsByUserId(userId)
+                if (!cartItems || cartItems.length === 0) {
+                    throw new AppError('Cart is empty', 400)
+                }
                 const order = await orderRepository.createOrder(userId)
 
                 const orderItems = []

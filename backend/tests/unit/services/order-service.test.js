@@ -11,7 +11,7 @@ const stripeProviderMock = {
 }
 
 const createCartRepoMock = () => ({
-    getCartItems: async (userId) => [
+    getCartItemsByUserId: async (userId) => [
         { id: 1, menuItemId: 2, quantity: 5, priceCents: 1000 },
     ],
 })
@@ -36,4 +36,19 @@ test('Order service placeOrder returns stripe session url', async () => {
 
     console.log('resilt', res)
     assert.ok(typeof res === 'string')
+})
+
+test('Throws error when cart is empty', async () => {
+    const orderService = createOrderService({
+        db: {},
+        withTransaction: withTransactionMock,
+        createOrderRepository: createOrderRepoMock,
+        createCartRepository: () => ({
+            getCartItemsByUserId: async () => [],
+        }),
+        stripeService: stripeProviderMock,
+    })
+
+    const res = orderService.placeOrder(1)
+    assert.rejects(res)
 })

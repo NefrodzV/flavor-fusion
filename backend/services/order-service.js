@@ -42,7 +42,8 @@ export function createOrderService({
             return sessionUrl
         },
         cancelOrder: async (orderId) => {
-            const order = await orderRepository.getById(orderId)
+            const orderRepository = createOrderRepository(db)
+            const order = await orderRepository.getOrderById(orderId)
             if (!order) {
                 throw new NotFoundError('Order not found')
             }
@@ -54,7 +55,9 @@ export function createOrderService({
             return await orderRepository.updateStatus(orderId, 'cancelled')
         },
         getAllOrders: async (userId) => {
-            const orders = (await orderRepository.getAllByUserId(userId)) || []
+            const orderRepository = createOrderRepository(db)
+            const orders =
+                (await orderRepository.getOrdersByUserId(userId)) || []
             return { orders }
         },
     }

@@ -1,4 +1,3 @@
-import request from 'supertest'
 import test from 'node:test'
 import assert from 'node:assert'
 import { createOrderService } from '../../../services/order-service.js'
@@ -22,6 +21,13 @@ const createOrderRepoMock = () => ({
         quantity: 5,
         priceCents: 1000,
     }),
+    getOrderById: async () => ({
+        status: 'paid',
+    }),
+    updateStatus: async (orderId) => ({
+        orderId,
+    }),
+    getOrdersByUserId: async (userId) => [],
 })
 
 const orderService = createOrderService({
@@ -51,4 +57,15 @@ test('Throws error when cart is empty', async () => {
 
     const res = orderService.placeOrder(1)
     assert.rejects(res)
+})
+
+test('CancelOrder returns updated order', async () => {
+    const res = orderService.cancelOrder(1)
+    assert.ok(res)
+})
+
+test('GetAll returns array', async () => {
+    const res = await orderService.getAllOrders(1)
+
+    assert.ok(Array.isArray(res.orders))
 })

@@ -1,7 +1,7 @@
 import { Pool } from 'pg'
-import { env } from 'node:process'
+import { env, loadEnvFile } from 'node:process'
 import { logError, sleep } from '../utils/index.js'
-
+loadEnvFile()
 export const pool = new Pool({
     user: env.DATABASE_USER,
     password: env.DATABASE_PASSWORD,

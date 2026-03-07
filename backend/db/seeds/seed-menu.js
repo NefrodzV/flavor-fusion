@@ -1,4 +1,7 @@
-const foods = [
+import { imageSizeFromFile } from 'image-size/fromFile'
+import { pool } from '../pool.js'
+
+const menuItems = [
     {
         name: 'Pork & Rice Harmony',
         description:
@@ -39,6 +42,7 @@ const foods = [
             medium: 'lobster-tail-medium.jpg',
         },
         priceCents: 5000,
+        category: 'Main Course',
     },
     {
         name: 'Chicken & Rice Fusion Bowl',
@@ -61,3 +65,56 @@ const foods = [
         priceCents: 3184,
     },
 ]
+
+const client = await pool.connect()
+
+try {
+    await client.query('BEGIN')
+    for (const menuItem of menuItems) {
+        const menuItemRow = await insertMenuItem(menuItem)
+        // Saving assets and images
+        for (const [key, val] of Object.entries(menuItem.url)) {
+            const assetRow = await insertMenuItemAsset(val)
+            await insertMenuItemImage(menuItemRow.id, assetRow.id)
+        }
+    }
+    await client.query('COMMIT')
+} catch (error) {
+    console.error(error)
+    await client.query('ROLLBACK')
+} finally {
+    client.release()
+    await pool.end()
+}
+
+async function insertMenuItem(menuItem) {
+    const { name, description, priceCents } = menuItem
+    const { rows } = await client.query(
+        `
+        INSERT INTO menu_items (name, description, price_cents)
+        VALUES ($1,$2,$3) RETURNING id`,
+        [name, description, priceCents]
+    )
+    console.log('Inserted menu item: ', rows[0].id, ' ', name)
+    return rows[0]
+}
+
+async function insertMenuItemAsset(fileName) {
+    const storageKey = 'images/menu'
+    const dimen = await imageSizeFromFile(`${storageKey}/${fileName}`)
+    const { rows } = await client.query(
+        `INSERT INTO assets (storage_key, width, height, mime_type, name) 
+        VALUES ($1, $2, $3, $4, $5) RETURNING id`,
+        [storageKey, dimen.width, dimen.height, dimen.type, fileName]
+    )
+    return rows[0]
+}
+
+async function insertMenuItemImage(menuItemId, assetId) {
+    const { rows } = await client.query(
+        `
+        INSERT INTO menu_item_images (asset_id, menu_item_id) VALUES($1,$2)`,
+        [assetId, menuItemId]
+    )
+    console.log('Saved menu item image', rows[0])
+}

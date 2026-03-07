@@ -39,8 +39,6 @@ const orderService = createOrderService({
 })
 test('Order service placeOrder returns stripe session url', async () => {
     const res = await orderService.placeOrder(1)
-
-    console.log('resilt', res)
     assert.ok(typeof res === 'string')
 })
 

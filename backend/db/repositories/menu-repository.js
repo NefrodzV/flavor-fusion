@@ -16,7 +16,11 @@ export function createMenuRepository(db) {
                 (
                 SELECT
                     mii.menu_item_id,
-                    jsonb_build_object('storage_key',a.storage_key,'width',a.width, 'height',a.height, 'name', a.name) as obj
+                    jsonb_build_object(
+                    'storage_key',a.storage_key,
+                    'width',a.width, 
+                    height',a.height, 
+                    'name', a.name) as obj
                 FROM menu_item_images mii
                 LEFT JOIN assets a ON a.id = mii.asset_id GROUP By mii.id, a.storage_key, a.width, a.height, a.name
 

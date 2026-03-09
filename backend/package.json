@@ -25,10 +25,12 @@
     "homepage": "https://github.com/NefrodzV/flavor-fusion#readme",
     "dependencies": {
         "bcrypt": "^6.0.0",
+        "bcryptjs": "^3.0.3",
         "cookie-parser": "^1.4.7",
         "cors": "^2.8.6",
         "express": "^5.2.1",
         "image-size": "^2.0.2",
+        "jose": "^6.2.1",
         "pg": "^8.18.0",
         "stripe": "^20.4.0"
     },

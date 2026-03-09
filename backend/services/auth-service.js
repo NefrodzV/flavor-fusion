@@ -16,7 +16,7 @@ export function createAuthService({
                 email,
                 hashed
             )
-            const token = tokenService.sign(user.id)
+            const token = await tokenService.sign(user.id)
             return { user, token }
         },
 

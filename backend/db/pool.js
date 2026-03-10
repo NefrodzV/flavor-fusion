@@ -1,12 +1,11 @@
 import { Pool } from 'pg'
-import { env, loadEnvFile } from 'node:process'
 import { logError, sleep } from '../utils/index.js'
-loadEnvFile()
+import { env } from '../config/env.js'
 export const pool = new Pool({
-    user: env.DATABASE_USER,
-    password: env.DATABASE_PASSWORD,
-    host: env.DATABASE_LOCALHOST,
-    database: env.DATABASE_NAME,
+    user: env.databaseUser,
+    password: env.databasePassword,
+    host: env.databaseHost,
+    database: env.databaseName,
 })
 
 export async function withTransaction(db, cb) {

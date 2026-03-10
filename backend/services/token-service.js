@@ -11,9 +11,9 @@ export async function sign(payload, secret) {
         .sign(keyBytes)
 }
 
-export async function verify(jwt, secret) {
+export async function verify(token, secret) {
     const encoder = new TextEncoder()
     const keyBytes = encoder.encode(secret)
-    const { payload } = await jose.jwtVerify(jwt, keyBytes)
+    const { payload } = await jose.jwtVerify(token, keyBytes)
     return payload
 }

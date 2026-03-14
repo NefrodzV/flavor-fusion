@@ -7,7 +7,6 @@ import { pool } from '../../../db/pool.js'
 test('getAll returns array of menu items', async () => {
     const menuRepository = createMenuRepository(pool)
     const res = await menuRepository.getAll()
-    console.log(res)
     assert.ok(Array.isArray(res))
     await pool.end()
 })

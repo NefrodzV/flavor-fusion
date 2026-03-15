@@ -1,4 +1,4 @@
-function createCartRepository(db) {
+export function createCartRepository(db) {
     if (!db) {
         throw new Error('Database is undefined in cart repository.')
     }
@@ -41,9 +41,23 @@ function createCartRepository(db) {
                 [userId]
             )
         },
-        upsertCartItem: async (userId, menuItemId, quantity) => {},
+        upsertCartItem: async (userId, menuItemId, quantity) => {
+            const { rows } = await db.query(
+                `
+                    INSERT INTO cart_items (
+                        cart_id,
+                        menu_item_id,
+                        quantity
+                        )
+                    VALUES ((SELECT id FROM carts WHERE user_id=$1), $2, $3) ON CONFLICT (cart_id,menu_item_id) DO UPDATE SET quantity=quantity + EXCLUDED.quantity
+                    RETURNING *
+                `,
+                [userId, menuItemId, quantity]
+            )
+
+            return rows[0] || null
+        },
         setCartItemQuantity: async (userId, menuItemId, quantity) => {},
         deleteCartItem: async (userId, menuItemId) => {},
     }
 }
-fas

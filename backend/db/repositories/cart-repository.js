@@ -3,12 +3,21 @@ export function createCartRepository(db) {
         throw new Error('Database is undefined in cart repository.')
     }
     return {
+        createUserCart: async (userId) => {
+            const { rows } = await db.query(
+                `INSERT INTO carts
+                (user_id) VALUES ($1)`,
+                [userId]
+            )
+
+            return rows[0]
+        },
         getCartByUserId: async (userId) => {
             const { rows } = await db.query(
                 `
                 SELECT 
-                    SUM(ci.line_total) AS total,
-                    ARRAY_AGG(ci) AS items
+                    COALESCE(SUM(ci.line_total), 0) AS total,
+                    COALESCE(json_agg(ci) FILTER(WHERE ci IS NOT NULL),'[]'::json) AS items
                     from carts c 
                     LEFT JOIN (
                         SELECT 
@@ -40,17 +49,17 @@ export function createCartRepository(db) {
                 `,
                 [userId]
             )
-            return rows || null
+            return rows[0] || null
         },
         upsertCartItem: async (userId, menuItemId, quantity) => {
             const { rows } = await db.query(
                 `
-                    INSERT INTO cart_items (
+                    INSERT INTO cart_items as ci (
                         cart_id,
                         menu_item_id,
                         quantity
                         )
-                    VALUES ((SELECT id FROM carts WHERE user_id=$1), $2, $3) ON CONFLICT (cart_id,menu_item_id) DO UPDATE SET quantity=quantity + EXCLUDED.quantity
+                    VALUES ((SELECT id FROM carts WHERE user_id=$1), $2, $3) ON CONFLICT (cart_id,menu_item_id) DO UPDATE SET quantity=ci.quantity + EXCLUDED.quantity
                     RETURNING *
                 `,
                 [userId, menuItemId, quantity]

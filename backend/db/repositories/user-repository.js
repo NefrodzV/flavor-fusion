@@ -13,7 +13,7 @@ export function createUserRepository(db) {
         },
         createUser: async (name, lastname, email, hash) => {
             const { rows } = await db.query(
-                'INSSERT INTO users (name, lastName,email, password VALUES ($1,$2,$3,$4) RETURNING id',
+                'INSERT INTO users (name, last_name,email, password) VALUES ($1,$2,$3,$4) RETURNING id',
                 [name, lastname, email, hash]
             )
             return rows[0]

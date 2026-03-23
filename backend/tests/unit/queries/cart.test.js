@@ -37,10 +37,8 @@ test(`Cart query returns this structure data format`, async () => {
         5
     )
 
-    console.log(cartItem)
     const cart = await cartRepository.getCartByUserId(user.id)
 
-    console.log(cart)
     assert.ok(cart)
     assert.equal(cart.items.length, 1)
 })

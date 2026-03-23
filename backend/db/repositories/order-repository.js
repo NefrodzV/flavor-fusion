@@ -5,7 +5,7 @@ export function createOrderRepository(db) {
     return {
         createOrder: async (userId) => {
             const { rows } = await db.query(
-                `INSERT INTO orders (user_id) VALUES ($1)`,
+                `INSERT INTO orders (user_id) VALUES ($1) RETURNING id`,
                 [userId]
             )
             return rows[0]

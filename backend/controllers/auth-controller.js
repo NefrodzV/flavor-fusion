@@ -36,7 +36,7 @@ export function createAuthController(authService) {
             res.cookie('flavor_fusion_session', token, COOKIE_OPTIONS)
 
             return res.json({
-                message: `Welcome ${user.name} ${user.lastName}`,
+                message: `Welcome ${user.name} ${user.last_name}`,
                 user,
             })
         },

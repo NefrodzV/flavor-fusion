@@ -5,7 +5,7 @@ export function createUserRepository(db) {
     return {
         findByEmail: async (email) => {
             const { rows } = await db.query(
-                ` SELECT * FROM users WHERE email=$1`,
+                `SELECT * FROM users WHERE email=$1`,
                 [email]
             )
 
@@ -20,9 +20,10 @@ export function createUserRepository(db) {
         },
 
         findById: async (userId) => {
-            const { rows } = await db.query(`SELECT * FROM users WHERE id=$1`, [
-                userId,
-            ])
+            const { rows } = await db.query(
+                `SELECT name, last_name, email FROM users WHERE id=$1`,
+                [userId]
+            )
             return rows[0]
         },
     }

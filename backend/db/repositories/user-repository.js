@@ -3,7 +3,7 @@ export function createUserRepository(db) {
         throw new Error('db param must be defined')
     }
     return {
-        findUserByEmail: async (email) => {
+        findByEmail: async (email) => {
             const { rows } = await db.query(
                 ` SELECT * FROM users WHERE email=$1`,
                 [email]

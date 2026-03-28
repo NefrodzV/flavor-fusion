@@ -1,4 +1,5 @@
 export function createCartController(cartService) {
+    console.log(cartService)
     return {
         getCart: async (req, res) => {
             const userId = req.user.id

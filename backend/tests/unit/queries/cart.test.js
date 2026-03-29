@@ -28,7 +28,7 @@ test(`Cart query returns this structure data format`, async () => {
         'nefrodzv23@gmail.com',
         12345678
     )
-    await cartRepository.createUserCart(user.id).id
+    await cartRepository.createCart(user.id).id
     const menuItems = await menuRepository.getAll()
     const menuItem = menuItems[0]
     const cartItem = await cartRepository.upsertCartItem(
@@ -53,19 +53,18 @@ test(`Cart item quantity is increased`, async () => {
         'nefrodzv23@gmail.com',
         12345678
     )
-    await cartRepository.createUserCart(user.id).id
+    await cartRepository.createCart(user.id).id
     const menuItems = await menuRepository.getAll()
     const menuItem = menuItems[0]
     await cartRepository.upsertCartItem(user.id, menuItem.id, 5)
     await cartRepository.upsertCartItem(user.id, menuItem.id, 1)
     const cart = await cartRepository.getCartByUserId(user.id)
-
     assert.ok(cart)
     assert.equal(cart.items.length, 1)
     assert.equal(cart.items[0].quantity, 6)
 })
 
-test(`Cart query returns this structure data format`, async () => {
+test(`Delete a cart item`, async () => {
     const userRepository = createUserRepository(client)
     const cartRepository = createCartRepository(client)
     const menuRepository = createMenuRepository(client)
@@ -75,12 +74,35 @@ test(`Cart query returns this structure data format`, async () => {
         'nefrodzv23@gmail.com',
         12345678
     )
-    await cartRepository.createUserCart(user.id).id
+    await cartRepository.createCart(user.id).id
     const menuItems = await menuRepository.getAll()
     const menuItem = menuItems[0]
     await cartRepository.upsertCartItem(user.id, menuItem.id, 5)
-    await cartRepository.deleteCartItem(user.id, menuItem.id)
+    const deleteRes = await cartRepository.deleteCartItem(user.id, menuItem.id)
+    console.log(deleteRes)
     const cart = await cartRepository.getCartByUserId(user.id)
     assert.ok(cart)
     assert.equal(cart.items.length, 0)
+})
+
+test('Cart query updates to new quantity value', async () => {
+    const userRepository = createUserRepository(client)
+    const cartRepository = createCartRepository(client)
+    const menuRepository = createMenuRepository(client)
+    const user = await userRepository.createUser(
+        'Neftaly',
+        'Rodriguez',
+        'nefrodzv23@gmail.com',
+        12345678
+    )
+    await cartRepository.createCart(user.id).id
+    const menuItems = await menuRepository.getAll()
+    const menuItem = menuItems[0]
+    await cartRepository.upsertCartItem(user.id, menuItem.id, 5)
+    const updateResult = await cartRepository.setCartItemQuantity(
+        user.id,
+        menuItem.id,
+        6
+    )
+    assert.equal(updateResult.quantity, 6)
 })

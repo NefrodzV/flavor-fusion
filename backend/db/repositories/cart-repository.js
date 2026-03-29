@@ -72,25 +72,24 @@ export function createCartRepository(db) {
                 `
                 UPDATE cart_items 
                 SET quantity=$1 
-                WHERE menu_item_id=$2 AND cart_id= (
+                WHERE menu_item_id=$2 AND cart_id=(
                 SELECT id FROM carts
                 WHERE user_id=$3
-                )`,
+                ) RETURNING menu_item_id, quantity`,
                 [quantity, menuItemId, userId]
             )
-
             return rows[0] || null
         },
         deleteCartItem: async (userId, menuItemId) => {
-            const { rows } = await db.query(
+            const { rows, rowCount } = await db.query(
                 `
-                DELETE FROM cart_items WHERE menu_item_id=$1 AND cart_id= (
+                DELETE FROM cart_items WHERE menu_item_id=$1 AND cart_id = (
                     SELECT id FROM carts WHERE user_id=$2
-                )`,
+                ) RETURNING *`,
                 [menuItemId, userId]
             )
 
-            return rows.rowCount
+            return rowCount
         },
     }
 }

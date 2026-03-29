@@ -104,3 +104,40 @@ test('Set a item to the user cart', async () => {
     assert.ok(getUpdatedCartRes.body.cart.items.length > 0)
     assert.ok(getUpdatedCartRes.body.cart)
 })
+
+test('Update an existing cart item quantity', async () => {
+    const resMenu = await request(app).get('/api/menu').expect(200)
+    const menuItem = resMenu.body.menu[0]
+    await request(app)
+        .post('/api/cart/items')
+        .set('Cookie', authCookie)
+        .send({ menuItemId: menuItem.id, quantity: 5 })
+        .expect(200)
+    const getCartRes = await request(app)
+        .get('/api/cart')
+        .set('Cookie', authCookie)
+        .expect(200)
+    const menuItemId = getCartRes.body.cart.items[0].menu_item_id
+    const patchCartItemRes = await request(app)
+        .patch(`/api/cart/items/${menuItemId}`)
+        .send({ quantity: 4 })
+        .set('Cookie', authCookie)
+        .expect(200)
+    assert.equal(patchCartItemRes.body.cart.items[0].quantity, 4)
+})
+
+test('Delete a cart item', async () => {
+    const resMenu = await request(app).get('/api/menu').expect(200)
+    const menuItem = resMenu.body.menu[0]
+    const createItemRes = await request(app)
+        .post('/api/cart/items')
+        .set('Cookie', authCookie)
+
+        .send({ menuItemId: menuItem.id, quantity: 5 })
+        .expect(200)
+    const menuItemId = createItemRes.body.cart.items[0].menu_item_id
+    const deleteRes = await request(app)
+        .delete(`/api/cart/items/${menuItemId}`)
+        .set('Cookie', authCookie)
+    assert.ok(deleteRes.body.cart.items.length === 0)
+})

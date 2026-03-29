@@ -37,23 +37,25 @@ test.before(async () => {
     client = await pool.connect()
     await client.query('BEGIN')
     userRepository = createUserRepository(client)
+    cartRepository = createCartRepository(client)
+    cartService = createCartService(cartRepository)
+    console.log(cartService)
+    cartController = createCartController(cartService)
+    cartRouter = createCartRouter({
+        cartController,
+        authenticateJWT: validateAuthToken,
+    })
     authService = createAuthService({
         userRepository,
         tokenService,
         hashService,
+        cartService,
     })
     menuRepository = createMenuRepository(client)
     menuController = createMenuController({ menuRepository })
     menuRouter = createMenuRouter({ menuController })
     authController = createAuthController(authService)
     authRouter = createAuthRouter(authController, validateAuthToken)
-    cartRepository = createCartRepository(client)
-    cartService = createCartService(cartRepository)
-    cartController = createCartController(cartService)
-    cartRouter = createCartRouter({
-        cartController,
-        authenticateJWT: validateAuthToken,
-    })
     app = createApp({ cartRouter, authRouter, menuRouter })
     const res = await request(app).post('/api/auth/register').send({
         name: 'neftaly',
@@ -77,9 +79,6 @@ test('Gets all cart items', async () => {
         .get('/api/cart')
         .set('Cookie', authCookie)
         .expect(200)
-
-    console.log(res.body)
-
     assert.ok(res.body.cart)
     assert.ok(Array.isArray(res.body.cart.items))
 })
@@ -87,9 +86,21 @@ test('Gets all cart items', async () => {
 test('Set a item to the user cart', async () => {
     const resMenu = await request(app).get('/api/menu').expect(200)
     const menuItem = resMenu.body.menu[0]
-    const res = await request(app)
+    const createItemRes = await request(app)
         .post('/api/cart/items')
         .set('Cookie', authCookie)
         .send({ menuItemId: menuItem.id, quantity: 5 })
-        .expect(201)
+        .expect(200)
+    await request(app)
+        .post('/api/cart/items')
+        .set('Cookie', authCookie)
+        .send({ menuItemId: menuItem.id, quantity: 5 })
+        .expect(200)
+    const getUpdatedCartRes = await request(app)
+        .get('/api/cart')
+        .set('Cookie', authCookie)
+        .expect(200)
+    assert.ok(Array.isArray(getUpdatedCartRes.body.cart.items))
+    assert.ok(getUpdatedCartRes.body.cart.items.length > 0)
+    assert.ok(getUpdatedCartRes.body.cart)
 })

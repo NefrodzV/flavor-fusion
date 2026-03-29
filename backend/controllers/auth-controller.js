@@ -8,7 +8,7 @@ const COOKIE_OPTIONS = {
     path: '/',
 }
 
-export function createAuthController(authService) {
+export function createAuthController(authService, cartService) {
     return {
         register: async (req, res) => {
             const { name, lastName, email, password } = req.body
@@ -19,7 +19,6 @@ export function createAuthController(authService) {
                 email,
                 password,
             })
-
             // If the result was successful set cookie and respond
             res.cookie('flavor_fusion_session', result.token, COOKIE_OPTIONS)
 

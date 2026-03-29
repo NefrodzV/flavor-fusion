@@ -3,7 +3,7 @@ export function createCartRepository(db) {
         throw new Error('Database is undefined in cart repository.')
     }
     return {
-        createUserCart: async (userId) => {
+        createCart: async (userId) => {
             const { rows } = await db.query(
                 `INSERT INTO carts
                 (user_id) VALUES ($1)`,

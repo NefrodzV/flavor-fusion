@@ -5,6 +5,7 @@ export function createAuthService({
     userRepository,
     tokenService,
     hashService,
+    cartService,
 }) {
     return {
         register: async ({ name, lastName, email, password }) => {
@@ -17,6 +18,9 @@ export function createAuthService({
                 email,
                 hashed
             )
+
+            await cartService.createCart(user.id)
+
             const token = await tokenService.sign(
                 { userId: user.id },
                 env.jwtSecret

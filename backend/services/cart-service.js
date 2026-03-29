@@ -10,7 +10,7 @@ export function createCartService(cartRepository) {
 
         addItem: async (userId, menuItemId, quantity) => {
             await cartRepository.upsertCartItem(userId, menuItemId, quantity)
-            return await cartService.getCartByUserId(userId)
+            return await cartRepository.getCartByUserId(userId)
         },
 
         updateItemQuantity: async (userId, menuItemId, quantity) => {
@@ -34,6 +34,10 @@ export function createCartService(cartRepository) {
                 throw new NotFoundError()
             }
             return await cartRepository.getCartByUserId(userId)
+        },
+
+        createCart: async (userId) => {
+            return await cartRepository.createCart(userId)
         },
     }
 }

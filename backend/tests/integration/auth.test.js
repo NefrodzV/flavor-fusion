@@ -10,20 +10,38 @@ import { createAuthController } from '../../controllers/auth-controller.js'
 import { createAuthRouter } from '../../routers/auth-router.js'
 import { pool } from '../../db/pool.js'
 import { validateAuthToken } from '../../middlewares/validate-auth-user.js'
+import { createCartRepository } from '../../db/repositories/cart-repository.js'
+import { createCartService } from '../../services/cart-service.js'
+import { createCartController } from '../../controllers/cart-controller.js'
+import { createCartRouter } from '../../routers/cart-router.js'
 
 let client
 let userRepository
 let authService
 let authController
 let authRouter
+let cartRepository
+let cartService
+let cartController
+let cartRouter
 
 test.before(async () => {
     client = await pool.connect()
     userRepository = createUserRepository(client)
+
+    cartRepository = createCartRepository(client)
+    cartService = createCartService(cartRepository)
+
+    cartController = createCartController(cartService)
+    cartRouter = createCartRouter({
+        cartController,
+        authenticateJWT: validateAuthToken,
+    })
     authService = createAuthService({
         userRepository,
         tokenService,
         hashService,
+        cartService,
     })
     authController = createAuthController(authService)
     authRouter = createAuthRouter(authController, validateAuthToken)

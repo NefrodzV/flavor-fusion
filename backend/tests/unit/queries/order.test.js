@@ -31,7 +31,7 @@ test('Creates a order', async () => {
         'nefrodzv23@gmail.com',
         12345678
     )
-    await cartRepository.createUserCart(user.id).id
+    await cartRepository.createCart(user.id).id
     const menuItems = await menuRepository.getAll()
     const menuItem = menuItems[0]
     const cartItem = await cartRepository.upsertCartItem(

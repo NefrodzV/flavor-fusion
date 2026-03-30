@@ -7,35 +7,43 @@ export function createOrderService({
     createOrderRepository,
     createCartRepository,
     stripeService,
+    existingClient,
 }) {
+    async function executePlaceOrderLogic(client, userId) {
+        const cartRepository = createCartRepository(client)
+        const orderRepository = createOrderRepository(client)
+
+        const cartItems = await cartRepository.getCartItemsByUserId(userId)
+        if (!cartItems || cartItems.length === 0) {
+            throw new AppError('Cart is empty', 400)
+        }
+        const order = await orderRepository.createOrder(userId)
+
+        const orderItems = []
+
+        for (const item of cartItems) {
+            const orderItem = await orderRepository.createOrderItem(
+                order.id,
+                item.menuItemId,
+                item.quantity,
+                item.priceCents
+            )
+            orderItems.push(orderItem)
+        }
+
+        return { order: { ...order, items: orderItems } }
+    }
     return {
         // TODO: CREATE REPOS WITH FACTORY FUNCTIONS
         placeOrder: async (userId) => {
-            const res = await withTransaction(db, async (client) => {
-                const cartRepository = createCartRepository(client)
-                const orderRepository = createOrderRepository(client)
-
-                const cartItems =
-                    await cartRepository.getCartItemsByUserId(userId)
-                if (!cartItems || cartItems.length === 0) {
-                    throw new AppError('Cart is empty', 400)
-                }
-                const order = await orderRepository.createOrder(userId)
-
-                const orderItems = []
-
-                for (const item of cartItems) {
-                    const orderItem = await orderRepository.createOrderItem(
-                        order.id,
-                        item.menuItemId,
-                        item.quantity,
-                        item.priceCents
-                    )
-                    orderItems.push(orderItem)
-                }
-
-                return { order: { ...order, items: orderItems } }
-            })
+            let res
+            if (existingClient) {
+                res = await executePlaceOrderLogic(existingClient, userId)
+            } else {
+                res = await withTransaction(db, async (client) => {
+                    return await executePlaceOrderLogic(client)
+                })
+            }
 
             // After order and order items have been created
             const sessionUrl = await stripeService.createCheckoutSession(res)

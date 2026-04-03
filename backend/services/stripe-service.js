@@ -13,10 +13,20 @@ export function createStripePaymentProvider(SECRET, FRONTEND_DOMAIN) {
 
     async function createCheckoutSession(order) {
         const session = await stripe.checkout.sessions.create({
+            client_reference_id: order.user_id,
             payment_method_types: ['card'],
+            metadata: {
+                order_id: order.id,
+            },
             // Making correct mapping
             line_items: order.items.map((i) => ({
-                unit_amount: i.priceCents,
+                price_data: {
+                    currency: 'usd',
+                    product_data: {
+                        name: i.menu_item_name,
+                    },
+                    unit_amount: i.price_cents,
+                },
                 quantity: i.quantity,
             })),
             mode: 'payment',

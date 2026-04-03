@@ -13,7 +13,8 @@ export function createOrderService({
         const cartRepository = createCartRepository(client)
         const orderRepository = createOrderRepository(client)
 
-        const cartItems = await cartRepository.getCartItemsByUserId(userId)
+        const cart = await cartRepository.getCartByUserId(userId)
+        const cartItems = cart.items
         if (!cartItems || cartItems.length === 0) {
             throw new AppError('Cart is empty', 400)
         }
@@ -24,14 +25,14 @@ export function createOrderService({
         for (const item of cartItems) {
             const orderItem = await orderRepository.createOrderItem(
                 order.id,
-                item.menuItemId,
+                item.menu_item_id,
                 item.quantity,
-                item.priceCents
+                item.price_cents
             )
             orderItems.push(orderItem)
         }
 
-        return { order: { ...order, items: orderItems } }
+        return { ...order, items: orderItems }
     }
     return {
         // TODO: CREATE REPOS WITH FACTORY FUNCTIONS
@@ -67,6 +68,22 @@ export function createOrderService({
             const orders =
                 (await orderRepository.getOrdersByUserId(userId)) || []
             return { orders }
+        },
+
+        fulfillOrder: async (event) => {
+            if (
+                event.type === 'checkout.session.completed' ||
+                event.type === 'checkout.session.async_payment_succeeded'
+            ) {
+                const orderRepository = createOrderRepository(db)
+                const userId = event.data.object.client_reference_id
+                const orderId = event.data.object.metadata.order_id
+                const res = await orderRepository.updateOrderStatus(
+                    userId,
+                    orderId,
+                    'paid'
+                )
+            }
         },
     }
 }

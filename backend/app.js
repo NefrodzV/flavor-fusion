@@ -8,6 +8,7 @@ export function createApp({
     cartRouter = () => {},
     authRouter = () => {},
     orderRouter = () => {},
+    stripeWebhookRouter = () => {},
 }) {
     const app = express()
 
@@ -17,6 +18,8 @@ export function createApp({
             credentials: true,
         })
     )
+
+    app.use('/api/stripe-hooks', stripeWebhookRouter)
     app.use(cookieParser())
     app.use(express.json())
 

@@ -2,8 +2,8 @@ export function createOrderController(orderService) {
     return {
         makeOrder: async (req, res) => {
             const userId = req.user.id
-            const order = await orderService.placeOrder(userId)
-            return res.status(201).json({ order })
+            const stripeOrderUrl = await orderService.placeOrder(userId)
+            return res.status(201).json({ url: stripeOrderUrl })
         },
 
         cancelOrder: async (req, res) => {

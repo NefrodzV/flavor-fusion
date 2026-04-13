@@ -17,4 +17,5 @@ export const env = {
     databaseName: required('DATABASE_NAME'),
     stripeSecret: required('STRIPE_SECRET'),
     endpointSecret: required('ENDPOINT_SECRET'),
+    frontendDomain: required('FRONTEND_DOMAIN'),
 }

@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Crimson Bold";
+  src: url("/font/Crimson_Text/CrimsonText-Bold.ttf");
+}
+
+@theme {
+  --font-crimson: "Crimson Bold";
+}
+
+html,
+body {
+  /* @apply bg-white dark:bg-gray-950; */
+
+  /* @media (prefers-color-scheme: dark) {
+    color-scheme: dark;
+  } */
+}

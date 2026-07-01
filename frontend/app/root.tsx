@@ -49,10 +49,18 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <Nav.Item
               css="flex gap-1 items-center capitalize font-semibold text-lg text-black"
               text="home"
-              icon="/home-default.svg"
+              icon={Home}
             />
-            <Nav.Item text="menu" icon="/menu-default.svg" />
-            <Nav.Item text="about" icon="/about-default.svg" />
+            <Nav.Item
+              css="flex gap-1 items-center capitalize font-semibold text-lg text-black"
+              text="menu"
+              icon={BookOpen}
+            />
+            <Nav.Item
+              css="flex gap-1 items-center capitalize font-semibold text-lg text-black"
+              text="about us"
+              icon={CircleQuestionMark}
+            />
           </Nav>
         </Header>
         {children}

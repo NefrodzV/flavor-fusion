@@ -1,5 +1,6 @@
 import React from "react";
 import { Image } from "./image";
+import type { LucideIcon } from "lucide-react";
 export function Nav({
   children,
   css
@@ -13,17 +14,17 @@ export function Nav({
 Nav.Item = function NavItem({
   css,
   text,
-  icon,
+  icon: Icon,
   link
 }: {
   css: string;
   text: string;
-  icon?: string;
+  icon?: LucideIcon;
   link: string;
 }) {
   return (
     <a className={css} href={link}>
-      {icon ? <Image src={icon} /> : null}
+      {Icon && <Icon />}
       <span>{text}</span>
     </a>
   );

@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'CrimsonBold';
-    src: url('./font/Crimson_Text/CrimsonText-Bold.ttf');
+    src: url('/font/Crimson_Text/CrimsonText-Bold.ttf') format('ttf');
 }
 @font-face {
     font-family: 'CrimsonBoldItalic';
@@ -256,8 +256,6 @@ nav {
     font-weight: bold;
 
 }
-
-
 
 main {
     background-color: var(--background);

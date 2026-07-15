@@ -47,17 +47,17 @@ export function Layout({ children }: { children: React.ReactNode }) {
           </div>
           <Nav css="flex gap-2">
             <Nav.Item
-              css="flex gap-1 items-center capitalize font-semibold text-lg text-black"
+              css="flex gap-1 items-center capitalize font-semibold text-lg text-black hover:bg-purple-400 rounded-sm p-1 cursor-pointer"
               text="home"
               icon={Home}
             />
             <Nav.Item
-              css="flex gap-1 items-center capitalize font-semibold text-lg text-black"
+              css="flex gap-1 items-center capitalize font-semibold text-lg text-black hover:bg-purple-400 rounded-sm p-1 cursor-pointer"
               text="menu"
               icon={BookOpen}
             />
             <Nav.Item
-              css="flex gap-1 items-center capitalize font-semibold text-lg text-black"
+              css="flex gap-1 items-center capitalize font-semibold text-lg text-black hover:bg-purple-400 rounded-sm p-1 cursor-pointer"
               text="about us"
               icon={CircleQuestionMark}
             />

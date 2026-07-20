@@ -50,11 +50,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
               css="flex gap-1 items-center capitalize font-semibold text-lg text-black hover:bg-purple-400 rounded-sm p-1 cursor-pointer"
               text="home"
               icon={Home}
+              link="/"
             />
             <Nav.Item
               css="flex gap-1 items-center capitalize font-semibold text-lg text-black hover:bg-purple-400 rounded-sm p-1 cursor-pointer"
               text="menu"
               icon={BookOpen}
+              link="/menu"
             />
             <Nav.Item
               css="flex gap-1 items-center capitalize font-semibold text-lg text-black hover:bg-purple-400 rounded-sm p-1 cursor-pointer"

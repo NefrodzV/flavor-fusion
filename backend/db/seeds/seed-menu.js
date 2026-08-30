@@ -29,7 +29,7 @@ const menuItems = [
             'A curated selection of five distinct sushi creations, each blending traditional flavors with unexpected twists. Experience a harmonious fusion of textures and tastes in every bite, where bold innovation meets classic craftsmanship. Perfect for adventurous palates seeking a new sushi experience.',
         url: {
             small: 'five-sushi-plate-small.jpg',
-            medium: 'five-sushi-plate-small.jpg',
+            medium: 'five-sushi-plate-medium.jpg',
         },
         priceCents: 3500,
     },

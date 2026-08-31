@@ -1,5 +1,6 @@
 import React from "react";
 import { Image } from "../image";
+import { Link } from "react-router";
 const apiUrl = import.meta.env.VITE_API_URL;
 interface DishItem {
   id: number;
@@ -31,7 +32,7 @@ export function DishItem({ dishItem }: DishProps) {
   });
 
   return (
-    <article>
+    <article className="relative">
       <Image
         // css="w-full max-w-[1920px]"
         src={`${apiUrl}/api/${formattedImagesBySize["small"]?.storage_key}/${formattedImagesBySize["small"]?.name}`}
@@ -45,10 +46,16 @@ export function DishItem({ dishItem }: DishProps) {
         <h2 className="text-base md:text-lg font-bold text-gray-900 leading-tight lg:text-2xl">
           {dishItem.name}
         </h2>
-        <span className="textsbase md:text-lg font-bold text-gray-800  whitespace-nowrap shrink-0 lg:text-2xl">
+        <span className="text-base md:text-lg font-bold text-gray-800  whitespace-nowrap shrink-0 lg:text-2xl">
           $ {(dishItem.price_cents / 100).toFixed(2)}
         </span>
       </div>
+      <Link
+        className="absolute bottom-0 top-0 left-0 right-0 pointer"
+        to={{
+          pathname: `/menu/${dishItem.name}`
+        }}
+      />
     </article>
   );
 }

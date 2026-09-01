@@ -31,5 +31,36 @@ export function createMenuRepository(db) {
 
             return rows
         },
+
+        getMenuItemWithSlug: async (slug) => {
+            const { rows } = await db.query(
+                `
+                SELECT
+                    mi.id,
+                    mi.name, 
+                    mi.description,
+                    mi.price_cents,
+                    COALESCE(
+                        json_agg(
+                            json_build_object(
+                                'storage_key', a.storage_key,
+                                'width', a.width, 
+                                'height', a.height, 
+                                'name', a.name
+                            )
+                        ) FILTER (WHERE a.id IS NOT NULL), 
+                        '[]'
+                    ) AS images
+                FROM menu_items mi
+                LEFT JOIN menu_item_images mii ON mi.id = mii.menu_item_id
+                LEFT JOIN assets a ON a.id = mii.asset_id
+                WHERE mi.slug = $1
+                GROUP BY mi.id;
+            `,
+                [slug]
+            )
+
+            return rows[0]
+        },
     }
 }

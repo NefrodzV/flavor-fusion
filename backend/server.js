@@ -25,6 +25,7 @@ import { withTransaction } from './db/pool.js'
 import { pool } from './db/pool.js'
 import { validateAuthToken } from './middlewares/validate-auth-user.js'
 import Stripe from 'stripe'
+import { createMenuService } from './services/menu-service.js'
 //TODO : Initialize all objects for app
 
 const userRepository = createUserRepository(pool)
@@ -51,9 +52,11 @@ const orderService = createOrderService({
     stripeService,
 })
 
+const menuService = createMenuService(menuRepository)
+
 const authController = createAuthController(authService, cartService)
 const cartController = createCartController(cartService)
-const menuController = createMenuController({ menuRepository })
+const menuController = createMenuController({ menuService })
 const orderController = createOrderController(orderService)
 const webhookController = createWebhookController(orderService)
 

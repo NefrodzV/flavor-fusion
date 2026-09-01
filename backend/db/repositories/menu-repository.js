@@ -8,6 +8,7 @@ export function createMenuRepository(db) {
                 SELECT
                     mi.id,
                     mi.name, 
+                    mi.slug,
                     description,
                     price_cents,
                     json_agg(images.obj) as images

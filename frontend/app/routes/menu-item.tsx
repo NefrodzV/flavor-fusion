@@ -8,6 +8,7 @@ import type {
 import { env } from "../env";
 import { Image } from "~/components/image";
 import { MainLayout } from "~/components/layout/main-layout";
+import { Button } from "~/components/button";
 export default function MenuItemPage() {
   const [menuItem, setMenuItem] = useState<MenuItem | null>(null);
   const params = useParams();
@@ -46,6 +47,12 @@ export default function MenuItemPage() {
         css="rounded-sm aspect-3/2 object-cover"
       />
       <p className="py-[.5rem] text-base pt-small">{menuItem.description}</p>
+      <div className="mt-4 flex items-center justify-between">
+        <span className="text-lg font-semibold text-gray-900">
+          ${(menuItem.price_cents / 100).toFixed(2)}
+        </span>
+        <Button>Add to Order</Button>
+      </div>
     </MainLayout>
   );
 }

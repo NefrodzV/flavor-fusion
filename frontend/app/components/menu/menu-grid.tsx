@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { env } from "~/env";
 import { MenuItem } from "./menu-item";
 import type { MenuItem as MenuItemType } from "./menu.types";
-export function DishGrid() {
+export function MenuGrid() {
   const [menu, setMenu] = useState<Array<MenuItemType>>([]);
   useEffect(() => {
     const getMenuItems = async () => {

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { env } from "~/env";
-import { DishItem } from "./menu-item";
+import { MenuItem } from "./menu-item";
+import type { MenuItem as MenuItemType } from "./menu.types";
 export function DishGrid() {
-  const [dishes, setDishes] = useState([]);
+  const [menu, setMenu] = useState<Array<MenuItemType>>([]);
   useEffect(() => {
     const getMenuItems = async () => {
       const url = new URL("/api/menu", env.apiUrl);
@@ -11,14 +12,14 @@ export function DishGrid() {
       });
 
       const data = await res.json();
-      setDishes(data.menu);
+      setMenu(data.menu);
     };
     getMenuItems();
   }, []);
   return (
     <div className="grid grid-cols-1 grid-rows-none gap-8 md:grid-cols-2">
-      {dishes.map((dish) => (
-        <DishItem dishItem={dish} />
+      {menu.map((menuItem) => (
+        <MenuItem key={menuItem.slug} menuItem={menuItem} />
       ))}
     </div>
   );

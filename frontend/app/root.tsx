@@ -11,6 +11,9 @@ import { Header } from "./components/header";
 import type { Route } from "./+types/root";
 import "./app.css";
 import { Nav } from "./components/nav";
+import { Button } from "./components/button";
+import { useState } from "react";
+import { MenuToggle } from "./components/MenuToggle";
 
 export const links: Route.LinksFunction = () => [
   { rel: "icon", href: "/flavor-fusion-logo.svg" },
@@ -23,6 +26,7 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
   return (
     <html lang="en">
       <head>
@@ -45,6 +49,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
             <span className="text-[1.5rem] font-sans">Flavor Fusion</span>
           </div>
+          <MenuToggle isOpen={menuIsOpen} onClick={setMenuIsOpen} />
           <Nav css="flex gap-2">
             <Nav.Item
               css="flex gap-1 items-center capitalize font-semibold text-lg text-black hover:bg-purple-400 rounded-sm p-1 cursor-pointer"

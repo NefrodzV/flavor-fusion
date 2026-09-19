@@ -23,9 +23,9 @@ Nav.Item = function NavItem({
   link: string;
 }) {
   return (
-    <a className={css} href={link}>
+    <a className={`${css}`} href={link}>
       {Icon && <Icon />}
-      <span>{text}</span>
+      <span className="whitespace-nowrap">{text}</span>
     </a>
   );
 };

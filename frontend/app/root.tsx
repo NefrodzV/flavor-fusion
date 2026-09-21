@@ -11,7 +11,7 @@ import { Header } from "./components/header";
 import type { Route } from "./+types/root";
 import "./app.css";
 import { Nav } from "./components/nav";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MenuToggle } from "./components/MenuToggle";
 
 export const links: Route.LinksFunction = () => [
@@ -26,6 +26,23 @@ export const links: Route.LinksFunction = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mediaQuery: MediaQueryList = window.matchMedia("(max-width: 768px)");
+
+    const handleMobileChange = (e: MediaQueryListEvent | MediaQueryList) => {
+      if (e.matches) {
+        return;
+      }
+      setMenuIsOpen(false);
+    };
+
+    mediaQuery.addEventListener("change", handleMobileChange);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleMobileChange);
+    };
+  }, []);
   return (
     <html lang="en">
       <head>
@@ -112,7 +129,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         </div>
         {children}
         <div
-          className={`fixed bg-black/75 ${menuIsOpen ? "top-0 bottom-0 left-0 right-0" : ""} z-2 transition`}
+          className={`fixed bg-black/75 ${menuIsOpen ? "top-0 bottom-0 left-0 right-0" : ""} z-2 transition md:hidden`}
         ></div>
         <ScrollRestoration />
         <Scripts />

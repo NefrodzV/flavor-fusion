@@ -15,7 +15,7 @@ export function MenuItem({ menuItem }: MenuProps) {
   });
 
   return (
-    <article className="relative">
+    <article className="relative z-0">
       <Image
         // css="w-full max-w-[1920px]"
         src={`${apiUrl}/api/${formattedImagesBySize["small"]?.storage_key}/${formattedImagesBySize["small"]?.name}`}
@@ -34,7 +34,7 @@ export function MenuItem({ menuItem }: MenuProps) {
         </span>
       </div>
       <Link
-        className="absolute bottom-0 top-0 left-0 right-0 pointer"
+        className="absolute bottom-0 top-0 left-0 right-0 pointer z-0"
         to={{
           pathname: `/menu/${menuItem.slug}`
         }}

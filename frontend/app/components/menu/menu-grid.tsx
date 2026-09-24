@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { env } from "~/env";
 import { MenuItem } from "./menu-item";
 import type { MenuItem as MenuItemType } from "./menu.types";
+import { Translate } from "../transitions/Translate";
 export function MenuGrid() {
   const [menu, setMenu] = useState<Array<MenuItemType>>([]);
   useEffect(() => {
@@ -19,7 +20,9 @@ export function MenuGrid() {
   return (
     <div className="grid grid-cols-1 grid-rows-none gap-8 md:grid-cols-2">
       {menu.map((menuItem) => (
-        <MenuItem key={menuItem.slug} menuItem={menuItem} />
+        <Translate start="top" out="top" show={true}>
+          <MenuItem key={menuItem.slug} menuItem={menuItem} />
+        </Translate>
       ))}
     </div>
   );

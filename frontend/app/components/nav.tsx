@@ -1,5 +1,4 @@
 import React from "react";
-import { Image } from "./image";
 import type { LucideIcon } from "lucide-react";
 export function Nav({
   children,

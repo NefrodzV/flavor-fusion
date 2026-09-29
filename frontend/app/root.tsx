@@ -52,7 +52,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
 
-      <body className="overflow-hidden relative min-h-screen">
+      <body className="relative min-h-screen">
         <div className="relative bg-purple-200 w-full min-h-[50px] flex justify-between">
           <Header
             css={`flex justify-between w-full z-10 ${menuIsOpen ? "border-b-1 border-black" : ""}`}

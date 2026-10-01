@@ -6,7 +6,14 @@ import {
   Scripts,
   ScrollRestoration
 } from "react-router";
-import { Home, BookOpen, CircleQuestionMark, UserRound } from "lucide-react";
+import {
+  Home,
+  BookOpen,
+  CircleQuestionMark,
+  UserRound,
+  ShoppingBag,
+  LogIn
+} from "lucide-react";
 import { Header } from "./components/header";
 import type { Route } from "./+types/root";
 import "./app.css";
@@ -59,7 +66,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           >
             <div className="flex items-center h-[2rem] gap-1 w-full">
               <svg
-                className="h-full"
+                className="h-full animate-[spin_4s_linear_infinite_reverse]"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 640 640"
               >
@@ -78,12 +85,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
               css={`hidden md:flex transition flex gap-1
               `}
             >
-              {/* <Nav.Item
-                css="capitalize flex justify-center items-center font-semibold md:gap-1 md:items-center text-lg text-black hover:bg-purple-400 rounded-sm p-1 cursor-pointer"
-                text="home"
-                icon={Home}
-                link="/"
-              /> */}
               <Nav.Item
                 css="flex gap-1 items-center
             capitalize font-semibold text-lg text-black hover:bg-purple-400 rounded-sm p-1 cursor-pointer"
@@ -95,6 +96,22 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 css="flex gap-1 items-center capitalize font-semibold text-lg text-black hover:bg-purple-400 rounded-sm p-1 cursor-pointer"
                 text="about us"
                 icon={CircleQuestionMark}
+                link="/about-us"
+              />
+
+              <Nav.Item
+                css="flex gap-1 items-center
+            capitalize font-semibold text-lg text-black hover:bg-purple-400 rounded-sm p-1 cursor-pointer"
+                text="shopping bag"
+                icon={ShoppingBag}
+                link="/shopping-bag"
+              />
+              <Nav.Item
+                css="flex gap-1 items-center
+            capitalize font-semibold text-lg text-black hover:bg-purple-400 rounded-sm p-1 cursor-pointer"
+                text="Log in"
+                icon={LogIn}
+                link="/login"
               />
             </Nav>
           </Header>
@@ -105,14 +122,22 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 ? "translate-y-0 opacity-100"
                 : "translate-y-[-100%] opacity-0"} z-5 md:invisible transition p-[5%] absolute grid grid-cols-3 top-[100%] left-0 right-0 bg-purple-200 gap-1
             `}
-            id="hamburger-menu"
           >
-            {/* <Nav.Item
-              css="capitalize flex flex-col justify-center items-center font-semibold md:gap-1 md:items-center text-lg text-black hover:bg-purple-400 rounded-sm p-1 cursor-pointer"
-              text="home"
-              icon={Home}
-              link="/"
-            /> */}
+            <Nav.Item
+              css="flex gap-1 flex flex-col justify-center items-center 
+              min-h-[100px] capitalize font-semibold text-lg text-black hover:bg-purple-400 rounded-sm p-1 cursor-pointer border-black border-1"
+              text="Shopping bag"
+              icon={ShoppingBag}
+              link="/shopping-bag"
+            />
+            <Nav.Item
+              css="flex gap-1 flex flex-col justify-center items-center 
+              min-h-[100px] capitalize font-semibold text-lg text-black hover:bg-purple-400 rounded-sm p-1 cursor-pointer border-black border-1"
+              text="Log in"
+              icon={LogIn}
+              link="/login"
+            />
+
             <Nav.Item
               css="flex gap-1 flex flex-col justify-center items-center 
               min-h-[100px] capitalize font-semibold text-lg text-black hover:bg-purple-400 rounded-sm p-1 cursor-pointer border-black border-1"
@@ -124,6 +149,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               css="min-h-[100px] md:flex gap-1 flex flex-col justify-center items-center capitalize font-semibold text-lg text-black hover:bg-purple-400 rounded-sm p-1 cursor-pointer border-black border-1"
               text="about us"
               icon={CircleQuestionMark}
+              link="/about-us"
             />
           </Nav>
         </div>

@@ -2,23 +2,28 @@ import React, { useEffect, useState } from "react";
 import { env } from "~/env";
 import { MenuItem } from "./menu-item";
 import type { MenuItem as MenuItemType } from "./menu.types";
-import { Translate } from "../transitions/Translate";
+import { Translate } from "../transitions/translate";
 import { MenuGridSkeleton } from "./menu-grid-skeleton";
+import { getMenuItems } from "~/services/menu-service";
+
 export function MenuGrid() {
   const [menu, setMenu] = useState<Array<MenuItemType>>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   useEffect(() => {
-    const getMenuItems = async () => {
-      const url = new URL("/api/menu", env.apiUrl);
-      const res = await fetch(url.toString(), {
-        credentials: "include"
-      });
+    async function loadMenu() {
+      try {
+        setIsLoading(true);
+        const data = await getMenuItems();
+        console.log(data);
+        setMenu(data);
+      } catch (error) {
+        console.log("Error loading menu:" + error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
 
-      const data = await res.json();
-      setMenu(data.menu);
-      setIsLoading(false);
-    };
-    getMenuItems();
+    loadMenu();
   }, []);
 
   if (isLoading) return <MenuGridSkeleton />;

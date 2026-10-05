@@ -19,5 +19,5 @@ export interface MenuImage {
 }
 
 export interface MenuItemResponse {
-  menuItem: MenuItem;
+  menu: MenuItem[];
 }

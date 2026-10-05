@@ -9,7 +9,7 @@ import { env } from "../env";
 import { Image } from "~/components/image";
 import { MainLayout } from "~/components/layout/main-layout";
 import { Button } from "~/components/button";
-import { Translate } from "~/components/transitions/Translate";
+import { Translate } from "~/components/transitions/translate";
 export default function MenuItemPage() {
   const [menuItem, setMenuItem] = useState<MenuItem | null>(null);
   const params = useParams();

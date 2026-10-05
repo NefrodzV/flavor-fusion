@@ -19,7 +19,7 @@ import type { Route } from "./+types/root";
 import "./app.css";
 import { Nav } from "./components/nav";
 import { useEffect, useState } from "react";
-import { MenuToggle } from "./components/MenuToggle";
+import { MenuToggle } from "./components/menu-toggle";
 
 export const links: Route.LinksFunction = () => [
   { rel: "icon", href: "/flavor-fusion-logo.svg" },

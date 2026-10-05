@@ -1,5 +1,5 @@
 import React from "react";
-import { MenuItemSkeleton } from "./MenuItemSkeleton";
+import { MenuItemSkeleton } from "./menu-item-skeleton";
 
 export function MenuGridSkeleton() {
   const array = Array.from({ length: 8 });

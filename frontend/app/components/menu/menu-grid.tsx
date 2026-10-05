@@ -3,7 +3,7 @@ import { env } from "~/env";
 import { MenuItem } from "./menu-item";
 import type { MenuItem as MenuItemType } from "./menu.types";
 import { Translate } from "../transitions/Translate";
-import { MenuGridSkeleton } from "./MenuGridSkeleton";
+import { MenuGridSkeleton } from "./menu-grid-skeleton";
 export function MenuGrid() {
   const [menu, setMenu] = useState<Array<MenuItemType>>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);

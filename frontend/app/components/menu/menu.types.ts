@@ -19,5 +19,9 @@ export interface MenuImage {
 }
 
 export interface MenuItemResponse {
+  menuItem: MenuItem;
+}
+
+export interface MenuItemsResponse {
   menu: MenuItem[];
 }

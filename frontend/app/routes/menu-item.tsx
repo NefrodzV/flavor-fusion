@@ -10,17 +10,23 @@ import { Image } from "~/components/image";
 import { MainLayout } from "~/components/layout/main-layout";
 import { Button } from "~/components/button";
 import { Translate } from "~/components/transitions/translate";
+import { getMenuItem } from "~/services/menu-service";
 export default function MenuItemPage() {
   const [menuItem, setMenuItem] = useState<MenuItem | null>(null);
   const params = useParams();
 
   useEffect(() => {
-    async function getMenuItem() {
-      const res = await fetch(`${env.apiUrl}/api/menu/${params.slug}`);
-      const data: MenuItemResponse = await res.json();
-      setMenuItem(data.menuItem);
+    async function loadMenuItem() {
+      try {
+        const slug = params.slug;
+        if (!slug) return;
+        const menuItem = await getMenuItem(slug);
+        setMenuItem(menuItem);
+      } catch (error) {
+        console.error("Error loading menu item:" + error);
+      }
     }
-    getMenuItem();
+    loadMenuItem();
   }, [params.slug]);
 
   const formattedImagesBySize = menuItem?.images.reduce<{

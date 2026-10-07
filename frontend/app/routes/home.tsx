@@ -1,9 +1,8 @@
 import type { Route } from "./+types/home";
-import { Welcome } from "../welcome/welcome";
 import { Hero } from "~/components/hero";
 import { Image } from "~/components/image";
-import { Button } from "~/components/button";
 import { Link } from "~/components/link";
+
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "Flavor Fusion" },

@@ -6,20 +6,21 @@ import {
   Scripts,
   ScrollRestoration
 } from "react-router";
-import {
-  Home,
-  BookOpen,
-  CircleQuestionMark,
-  UserRound,
-  ShoppingBag,
-  LogIn
-} from "lucide-react";
+import { BookOpen, CircleQuestionMark, ShoppingBag, LogIn } from "lucide-react";
 import { Header } from "./components/header";
 import type { Route } from "./+types/root";
 import "./app.css";
 import { Nav } from "./components/nav";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { MenuToggle } from "./components/menu-toggle";
+
+// 1. Centralized navigation configuration
+const NAV_ITEMS = [
+  { text: "menu", icon: BookOpen, link: "/menu" },
+  { text: "about us", icon: CircleQuestionMark, link: "/about-us" },
+  { text: "shopping bag", icon: ShoppingBag, link: "/shopping-bag" },
+  { text: "Log in", icon: LogIn, link: "/login" }
+];
 
 export const links: Route.LinksFunction = () => [
   { rel: "icon", href: "/flavor-fusion-logo.svg" },
@@ -33,6 +34,7 @@ export const links: Route.LinksFunction = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     const mediaQuery: MediaQueryList = window.matchMedia("(max-width: 768px)");
@@ -50,6 +52,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       mediaQuery.removeEventListener("change", handleMobileChange);
     };
   }, []);
+
   return (
     <html lang="en">
       <head>
@@ -62,8 +65,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body className="relative min-h-screen">
         <div className="relative bg-purple-200 w-full min-h-[50px] flex justify-between">
           <Header
-            css={`flex justify-between w-full z-10 ${menuIsOpen ? "border-b-1 border-black" : ""}`}
+            css={`flex justify-between w-full z-20 ${menuIsOpen ? "border-b border-black" : ""}`}
           >
+            {/* Logo */}
             <div className="flex items-center h-[2rem] gap-1 w-full">
               <svg
                 className="h-full animate-[spin_4s_linear_infinite_reverse]"
@@ -72,91 +76,57 @@ export function Layout({ children }: { children: React.ReactNode }) {
               >
                 <path d="M179.5 71.4C193.1 60.1 213.3 61.9 224.6 75.5C235.9 89.1 234.1 109.3 220.5 120.6C164.2 167.5 128 239.2 128 320C128 426 214 512 320 512C426 512 512 426 512 320C512 244.9 451.1 184 376 184C300.9 184 240 244.9 240 320C240 364.2 275.8 400 320 400C364.2 400 400 364.2 400 320C400 306.7 389.3 296 376 296C362.7 296 352 306.7 352 320C352 337.7 337.7 352 320 352C302.3 352 288 337.7 288 320C288 271.4 327.4 232 376 232C424.6 232 464 271.4 464 320C464 399.5 399.5 464 320 464C240.5 464 176 399.5 176 320C176 209.5 265.5 120 376 120C486.5 120 576 209.5 576 320C576 461.4 461.4 576 320 576C178.6 576 64 461.4 64 320C64 219.8 109 130.1 179.5 71.4z" />
               </svg>
-
               <span className="text-[1.5rem] font-sans">Flavor Fusion</span>
             </div>
+
+            {/* Mobile Menu Toggle */}
             <MenuToggle
-              css="md:hidden"
+              css="md:hidden z-20"
               isOpen={menuIsOpen}
               onClick={setMenuIsOpen}
             />
-            {/* Navigation menu for large screen sizes */}
-            <Nav
-              css={`hidden md:flex transition flex gap-1
-              `}
-            >
-              <Nav.Item
-                css="flex gap-1 items-center
-            capitalize font-semibold text-lg text-black hover:bg-purple-400 rounded-sm p-1 cursor-pointer"
-                text="menu"
-                icon={BookOpen}
-                link="/menu"
-              />
-              <Nav.Item
-                css="flex gap-1 items-center capitalize font-semibold text-lg text-black hover:bg-purple-400 rounded-sm p-1 cursor-pointer"
-                text="about us"
-                icon={CircleQuestionMark}
-                link="/about-us"
-              />
 
-              <Nav.Item
-                css="flex gap-1 items-center
-            capitalize font-semibold text-lg text-black hover:bg-purple-400 rounded-sm p-1 cursor-pointer"
-                text="shopping bag"
-                icon={ShoppingBag}
-                link="/shopping-bag"
-              />
-              <Nav.Item
-                css="flex gap-1 items-center
-            capitalize font-semibold text-lg text-black hover:bg-purple-400 rounded-sm p-1 cursor-pointer"
-                text="Log in"
-                icon={LogIn}
-                link="/login"
-              />
+            {/* Desktop Navigation */}
+            <Nav css="hidden md:flex gap-1">
+              {NAV_ITEMS.map((item) => (
+                <Nav.Item
+                  key={item.link}
+                  css="flex gap-1 items-center capitalize font-semibold text-lg text-black hover:bg-purple-400 rounded-sm p-1 cursor-pointer"
+                  text={item.text}
+                  icon={item.icon}
+                  link={item.link}
+                />
+              ))}
             </Nav>
           </Header>
-          {/* Navigation menu for small screen sizes will only appear with toggle menu*/}
+
+          {/* Mobile Navigation Dropdown */}
           <Nav
             css={`
               ${menuIsOpen
-                ? "translate-y-0 opacity-100"
-                : "translate-y-[-100%] opacity-0"} z-5 md:invisible transition p-[5%] absolute grid grid-cols-3 top-[100%] left-0 right-0 bg-purple-200 gap-1
+                ? "translate-y-0 opacity-100 pointer-events-auto"
+                : "translate-y-[-100%] opacity-0 pointer-events-none"} z-10 md:hidden transition-all duration-300 p-[5%] absolute grid grid-cols-2 sm:grid-cols-3 top-[100%] left-0 right-0 bg-purple-200 gap-2
             `}
           >
-            <Nav.Item
-              css="flex gap-1 flex flex-col justify-center items-center 
-              min-h-[100px] capitalize font-semibold text-lg text-black hover:bg-purple-400 rounded-sm p-1 cursor-pointer border-black border-1"
-              text="Shopping bag"
-              icon={ShoppingBag}
-              link="/shopping-bag"
-            />
-            <Nav.Item
-              css="flex gap-1 flex flex-col justify-center items-center 
-              min-h-[100px] capitalize font-semibold text-lg text-black hover:bg-purple-400 rounded-sm p-1 cursor-pointer border-black border-1"
-              text="Log in"
-              icon={LogIn}
-              link="/login"
-            />
-
-            <Nav.Item
-              css="flex gap-1 flex flex-col justify-center items-center 
-              min-h-[100px] capitalize font-semibold text-lg text-black hover:bg-purple-400 rounded-sm p-1 cursor-pointer border-black border-1"
-              text="menu"
-              icon={BookOpen}
-              link="/menu"
-            />
-            <Nav.Item
-              css="min-h-[100px] md:flex gap-1 flex flex-col justify-center items-center capitalize font-semibold text-lg text-black hover:bg-purple-400 rounded-sm p-1 cursor-pointer border-black border-1"
-              text="about us"
-              icon={CircleQuestionMark}
-              link="/about-us"
-            />
+            {NAV_ITEMS.map((item) => (
+              <Nav.Item
+                key={item.link}
+                css="flex flex-col justify-center items-center min-h-[100px] capitalize font-semibold text-lg text-black hover:bg-purple-400 rounded-sm p-2 cursor-pointer border-black border"
+                text={item.text}
+                icon={item.icon}
+                link={item.link}
+              />
+            ))}
           </Nav>
         </div>
         {children}
-        <div
-          className={`fixed bg-black/75 ${menuIsOpen ? "top-0 bottom-0 left-0 right-0" : ""} z-2 transition md:hidden`}
-        ></div>
+        {menuIsOpen && (
+          <div
+            onClick={() => setMenuIsOpen(false)}
+            className="fixed inset-0 bg-black/50 z-5 md:hidden"
+          />
+        )}
+
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -166,33 +136,4 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return <Outlet />;
-}
-
-export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  let message = "Oops!";
-  let details = "An unexpected error occurred.";
-  let stack: string | undefined;
-
-  if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? "404" : "Error";
-    details =
-      error.status === 404
-        ? "The requested page could not be found."
-        : error.statusText || details;
-  } else if (import.meta.env.DEV && error && error instanceof Error) {
-    details = error.message;
-    stack = error.stack;
-  }
-
-  return (
-    <main className="pt-16 p-4 container mx-auto">
-      <h1>{message}</h1>
-      <p>{details}</p>
-      {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
-          <code>{stack}</code>
-        </pre>
-      )}
-    </main>
-  );
 }

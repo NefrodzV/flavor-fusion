@@ -29,11 +29,11 @@ export function MenuGrid() {
   if (isLoading) return <MenuGridSkeleton />;
 
   return (
-    <section>
-      <h1 className="text-xl font-bold md:text-xl lg:text-3xl text-center mb-2">
+    <section className="flex flex-col items-center">
+      <h1 className=" text-xl font-bold md:text-xl lg:text-3xl text-center mb-2">
         Menu
       </h1>
-      <div className="relative h-full w-full grid grid-cols-1 grid-rows-none gap-8 md:grid-cols-2">
+      <div className="max-w-5xl relative h-full w-full grid grid-cols-1 grid-rows-none gap-8 md:grid-cols-2">
         {menu.map((menuItem) => (
           <Translate key={menuItem.slug} start="top" out="top" show={true}>
             <MenuItem menuItem={menuItem} />

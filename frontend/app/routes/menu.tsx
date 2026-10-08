@@ -1,9 +1,10 @@
 import React from "react";
+import { MainLayout } from "~/components/layout/main-layout";
 import { MenuGrid } from "~/components/menu/menu-grid";
 export default function Menu() {
   return (
-    <main className="px-[10%] py-[5%] h-full">
+    <MainLayout css="h-full">
       <MenuGrid />
-    </main>
+    </MainLayout>
   );
 }

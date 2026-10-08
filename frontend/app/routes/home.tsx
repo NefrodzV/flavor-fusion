@@ -1,6 +1,7 @@
 import type { Route } from "./+types/home";
 import { Hero } from "~/components/hero";
 import { Image } from "~/components/image";
+import { MainLayout } from "~/components/layout/main-layout";
 import { Link } from "~/components/link";
 
 export function meta({}: Route.MetaArgs) {
@@ -12,8 +13,8 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
   return (
-    <main className="px-[10%] py-[5%]">
-      <Hero css="grid lg:grid-cols-[.6fr_.4fr] gap-4 grid-cols-1 ">
+    <MainLayout css="px-[10%] py-[5%] flex justify-center">
+      <Hero css="grid lg:grid-cols-[.6fr_.4fr] gap-4 grid-cols-1 max-w-5xl">
         <Image
           css="w-full max-w-[1920px]"
           src="/restaurant-medium.jpg"
@@ -44,6 +45,6 @@ export default function Home() {
           />
         </Hero.Content>
       </Hero>
-    </main>
+    </MainLayout>
   );
 }

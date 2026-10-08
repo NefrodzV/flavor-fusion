@@ -18,7 +18,7 @@ import { MenuToggle } from "./components/menu-toggle";
 const NAV_ITEMS = [
   { text: "menu", icon: BookOpen, link: "/menu" },
   { text: "about us", icon: CircleQuestionMark, link: "/about-us" },
-  { text: "shopping bag", icon: ShoppingBag, link: "/shopping-bag" },
+  { text: "your bag", icon: ShoppingBag, link: "/your-bag" },
   { text: "Log in", icon: LogIn, link: "/login" }
 ];
 

@@ -9,7 +9,7 @@ export default function YourBagRoute() {
     <MainLayout css="h-full flex justify-center">
       <div className="max-w-5xl  mb-6 h-full w-full">
         {/* Add bag icon */}
-        <h1 className="flex gap-1 text-lg sm:text-3xl font-bold items-center">
+        <h1 className="flex gap-1 text-xl sm:text-3xl font-bold items-center">
           <ShoppingBag />
           Your bag
         </h1>

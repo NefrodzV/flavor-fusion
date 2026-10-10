@@ -16,7 +16,7 @@ export default function Home() {
     <MainLayout css="px-[10%] py-[5%] flex justify-center">
       <Hero css="grid lg:grid-cols-[.6fr_.4fr] gap-4 grid-cols-1 max-w-5xl">
         <Image
-          css="w-full max-w-[1920px]"
+          css="aspect-16/9"
           src="/restaurant-medium.jpg"
           srcSet="/restaurant-small.jpg 650w, 
           /restaurant-medium.jpg 1920w"

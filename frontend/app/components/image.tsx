@@ -5,9 +5,9 @@ export function Image({
   sizes
 }: {
   src: string;
-  srcSet: string;
-  css: string | "";
-  sizes: string | "";
+  srcSet?: string;
+  css?: string;
+  sizes?: string;
 }) {
   return (
     <img

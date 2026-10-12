@@ -41,7 +41,7 @@ export default function Home() {
           <Link
             text="View Menu"
             to="#"
-            css="bg-purple-200 hover:bg-purple-400 self-start px-[.5rem] py-[.5rem] text-xl md:text-2xl rounded-sm transition font-medium"
+            css="bg-purple-200 hover:bg-purple-400 self-start px-[.5rem] py-[.5rem] text-xl md:text-2xl rounded-sm transition font-medium active:scale-95"
           />
         </Hero.Content>
       </Hero>

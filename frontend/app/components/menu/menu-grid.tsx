@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { env } from "~/env";
 import { MenuItem } from "./menu-item";
-import type { MenuItem as MenuItemType } from "./menu.types";
+import type { MenuItem as MenuItemType } from "~/services";
 import { Translate } from "../transitions/translate";
 import { MenuGridSkeleton } from "./menu-grid-skeleton";
 import { getMenuItems } from "~/services/menu/menu-api";

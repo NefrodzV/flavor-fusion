@@ -1,7 +1,7 @@
 import React from "react";
 import { Trash, Plus, Minus } from "lucide-react";
 import { Image } from "../image";
-import type { CartItem } from "./cart.types";
+import type { CartItem } from "~/services";
 export function CartItem({ item }: { item: CartItem }) {
   return (
     <article className="overflow-hidden p-2 sm:p-4 grid gap-4 grid-cols-[100px_1fr] sm:grid-cols-[120px_1fr] shadow-sm rounded-sm border-1 border-solid border-purple-100">

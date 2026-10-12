@@ -1,5 +1,5 @@
 import React from "react";
-import type { CartItem as CartItemType } from "./cart.types";
+import type { CartItem as CartItemType } from "~/services";
 import { CartItem } from "./cart-item";
 export function CartList({ items }: { items: CartItemType[] }) {
   return (

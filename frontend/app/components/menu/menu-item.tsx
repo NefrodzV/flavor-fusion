@@ -1,7 +1,7 @@
 import React from "react";
 import { Image } from "../image";
 import { Link } from "react-router";
-import type { MenuProps, MenuImage } from "./menu.types";
+import type { MenuProps, MenuImage } from "~/services";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export function MenuItem({ menuItem }: MenuProps) {

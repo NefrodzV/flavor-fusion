@@ -3,7 +3,7 @@ import type {
   MenuItemsResponse,
   MenuItemResponse
 } from "~/components/menu/menu.types";
-import { env } from "../env";
+import { env } from "../../env";
 export async function getMenuItems(): Promise<MenuItem[]> {
   const url = new URL("/api/menu", env.apiUrl);
   const res = await fetch(url.toString(), {

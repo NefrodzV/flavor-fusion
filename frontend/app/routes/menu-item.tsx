@@ -10,7 +10,7 @@ import { Image } from "~/components/image";
 import { MainLayout } from "~/components/layout/main-layout";
 import { Button } from "~/components/button";
 import { Translate } from "~/components/transitions/translate";
-import { getMenuItem } from "~/services/menu-service";
+import { getMenuItem } from "~/services/menu/menu-api";
 export default function MenuItemPage() {
   const [menuItem, setMenuItem] = useState<MenuItem | null>(null);
   const params = useParams();

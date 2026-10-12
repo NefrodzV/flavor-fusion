@@ -4,7 +4,7 @@ import { MenuItem } from "./menu-item";
 import type { MenuItem as MenuItemType } from "./menu.types";
 import { Translate } from "../transitions/translate";
 import { MenuGridSkeleton } from "./menu-grid-skeleton";
-import { getMenuItems } from "~/services/menu-service";
+import { getMenuItems } from "~/services/menu/menu-api";
 
 export function MenuGrid() {
   const [menu, setMenu] = useState<Array<MenuItemType>>([]);

@@ -1,13 +1,15 @@
+import type { MenuItem } from "../menu/menu-types";
+
 export interface CartItem {
-  id?: number; // comes from the database if user is logged in
-  menuItemId: number;
-  name: string;
-  price: number;
+  id?: number;
+  menuItem: MenuItem;
   quantity: number;
-  image: string;
 }
 
-export interface LocalCartItem {
-  menuItemId: number;
-  quantity: number;
+export interface ICartService {
+  getItems(): Promise<CartItem[]>;
+  addItem(item: CartItem): Promise<void>;
+  updateItem(quantity: number, id: number | string): Promise<CartItem>;
+  removeItem(id: number | string): Promise<CartItem>;
+  clear(): void;
 }

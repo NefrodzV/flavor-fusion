@@ -1,4 +1,3 @@
-import type { MenuItem } from "../menu/menu-types";
 import type { CartItem, ICartService } from "./cart-types";
 
 export class LocalCart implements ICartService {
@@ -38,5 +37,17 @@ export class LocalCart implements ICartService {
       updateItems = [...items, item];
     }
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(updateItems));
+  }
+
+  async removeItem(slug: string | number): Promise<void> {
+    const items = await this.getItems();
+    items.filter((item) => item.menuItem.slug !== slug);
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(items));
+  }
+
+  async updateItem(quantity: number, slug: string): Promise<void> {}
+
+  async clear(): Promise<void> {
+    localStorage.removeItem(this.STORAGE_KEY);
   }
 }

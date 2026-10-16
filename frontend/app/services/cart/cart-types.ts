@@ -9,6 +9,6 @@ export interface CartItem {
 export interface ICartService {
   getItems(): Promise<CartItem[]>;
   addItem(item: CartItem): Promise<void>;
-  updateItem(quantity: number, id: number | string): Promise<void>;
-  removeItem(id: string | number): Promise<void>;
+  updateItem(item: CartItem, quantity: number): Promise<void>;
+  removeItem(item: CartItem): Promise<void>;
 }

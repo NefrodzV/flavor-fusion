@@ -1,6 +1,6 @@
 import type { CartItem, ICartService } from "./cart-types";
 
-export class LocalCart implements ICartService {
+export class LocalCartService implements ICartService {
   private STORAGE_KEY = "flavor_fusion_cart";
   constructor() {}
 
@@ -39,13 +39,14 @@ export class LocalCart implements ICartService {
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(updateItems));
   }
 
-  async removeItem(slug: string | number): Promise<void> {
+  async removeItem(item: CartItem): Promise<void> {
     const items = await this.getItems();
-    items.filter((item) => item.menuItem.slug !== slug);
+    items.filter((i) => i.menuItem.slug !== item.menuItem.slug);
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(items));
   }
 
-  async updateItem(quantity: number, slug: string): Promise<void> {}
+  // TODO: Update this function
+  async updateItem(item: CartItem, quantity: number): Promise<void> {}
 
   async clear(): Promise<void> {
     localStorage.removeItem(this.STORAGE_KEY);

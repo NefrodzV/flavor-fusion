@@ -1,7 +1,7 @@
 import { ApiError } from "~/Errors/api-error";
 import type { CartItem, ICartService } from "./cart-types";
 import { env } from "~/env";
-export class CartApi implements ICartService {
+export class CartApiService implements ICartService {
   async getItems(): Promise<CartItem[]> {
     const res = await fetch(`${env.apiUrl}/api/cart`, {
       method: "GET",
@@ -36,20 +36,20 @@ export class CartApi implements ICartService {
     }
   }
 
-  async updateItem(
-    quantity: number,
-    menuItemId: number | string
-  ): Promise<void> {
-    const res = await fetch(`${env.apiUrl}/api/cart/items/${menuItemId}`, {
-      method: "PATCH",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        quantity: quantity
-      })
-    });
+  async updateItem(item: CartItem, quantity: number): Promise<void> {
+    const res = await fetch(
+      `${env.apiUrl}/api/cart/items/${item.menuItem.id}`,
+      {
+        method: "PATCH",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          quantity: quantity
+        })
+      }
+    );
 
     if (!res.ok) {
       throw new ApiError(
@@ -58,11 +58,14 @@ export class CartApi implements ICartService {
     }
   }
 
-  async removeItem(menuItemId: string | number): Promise<void> {
-    const res = await fetch(`${env.apiUrl}/api/cart/items/${menuItemId}`, {
-      method: "DELETE",
-      credentials: "include"
-    });
+  async removeItem(item: CartItem): Promise<void> {
+    const res = await fetch(
+      `${env.apiUrl}/api/cart/items/${item.menuItem.id}`,
+      {
+        method: "DELETE",
+        credentials: "include"
+      }
+    );
 
     if (!res.ok) {
       throw new ApiError(

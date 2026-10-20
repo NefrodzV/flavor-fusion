@@ -12,28 +12,30 @@ export function CartItem({ item }: { item: CartItem }) {
       <div className=" flex flex-col">
         <div className="flex justify-between gap-1">
           <div className="">
-            <h3 className="text-base md:text-lg font-semibold ">{item.name}</h3>
+            <h3 className="text-base md:text-lg font-semibold ">
+              {item.menuItem.name}
+            </h3>
             <p className="text-sm text-gray-500">
-              $ {(item.price / 100).toFixed(2)}
+              $ {(item.menuItem.price_cents / 100).toFixed(2)}
             </p>
           </div>
-          <button className="cursor-pointer block p-1 rounded-sm border-red-300 bg-red-100/50 border-solid border-1 w-min h-min">
+          <button className="cursor-pointer block p-1 rounded-sm border-red-300 bg-red-100/50 border-solid border-1 w-min h-min active:scale-95">
             <Trash color="red" width={14} height={14} />
           </button>
         </div>
 
         <div className="text-sm  flex justify-between mbs-auto mbe-0">
           <div className="flex gap-1 ">
-            <button className="cursor-pointer border-1 border-solid border-purple-400 p-1 bg-purple-100/80 rounded-sm items-center">
+            <button className="cursor-pointer border-1 border-solid border-purple-400 p-1 bg-purple-100/80 rounded-sm items-center active:scale-95">
               <Minus width={14} height={14} />
             </button>
             <span className="text-base flex items-center">{item.quantity}</span>
-            <button className="cursor-pointer border-1 border-solid border-purple-400 p-1 bg-purple-100/80 rounded-sm items-center">
+            <button className="cursor-pointer border-1 border-solid border-purple-400 p-1 bg-purple-100/80 rounded-sm items-center active:scale-95">
               <Plus width={14} height={14} />
             </button>
           </div>
           <span className="text-base font-semibold">
-            $ {((item.price * item.quantity) / 100).toFixed(2)}
+            $ {((item.menuItem.price_cents * item.quantity) / 100).toFixed(2)}
           </span>
         </div>
       </div>

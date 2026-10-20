@@ -1,4 +1,4 @@
-import { ApiError } from "~/Errors/api-error";
+import { ApiError } from "~/errors/api-error";
 import type { CartItem, ICartService } from "./cart-types";
 import { env } from "~/env";
 export class CartApiService implements ICartService {

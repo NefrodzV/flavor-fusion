@@ -8,7 +8,7 @@ import React, {
 import type { ReactNode } from "react";
 import { CartService } from "~/services/cart/cart-service";
 import { useAuth } from "./AuthProvider";
-import type { CartItem } from "~/services";
+import type { CartItem, ICartService } from "~/services";
 
 interface CartContextType {
   items: CartItem[];
@@ -19,10 +19,19 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | null>(null);
 
-export function CartProvider({ children }: { children: ReactNode }) {
+export function CartProvider({
+  children,
+  cartServiceProp
+}: {
+  children: ReactNode;
+  cartServiceProp?: ICartService;
+}) {
   const { isLoggedIn } = useAuth();
   const [items, setItems] = useState<CartItem[]>([]);
-  const cartService = useMemo(() => new CartService(() => isLoggedIn), []);
+  const cartService = useMemo(
+    () => cartServiceProp || new CartService(() => isLoggedIn),
+    []
+  );
 
   useEffect(() => {
     async function loadCart() {

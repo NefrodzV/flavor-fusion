@@ -22,7 +22,7 @@ const CartContext = createContext<CartContextType | null>(null);
 export function CartProvider({ children }: { children: ReactNode }) {
   const { isLoggedIn } = useAuth();
   const [items, setItems] = useState<CartItem[]>([]);
-  const cartService = useMemo(() => new CartService(() => auth.isLoggedIn), []);
+  const cartService = useMemo(() => new CartService(() => isLoggedIn), []);
 
   useEffect(() => {
     async function loadCart() {

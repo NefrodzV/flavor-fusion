@@ -20,13 +20,13 @@ export function Header({
   setMenuIsActive: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   return (
-    <div className="relative bg-purple-200 w-full min-h-[50px] flex justify-between items-center">
+    <div className={`relative w-full flex justify-between items-center z-10`}>
       <header
-        className={`px-2 sm:px-8 flex justify-between w-full z-20 ${menuIsActive ? "border-b border-black" : ""}`}
+        className={`relative z-20 p-2 flex justify-between w-full bg-purple-200 ${menuIsActive ? "border-b border-black" : ""}`}
       >
         <Logo />
         <MenuToggle
-          css="md:hidden z-20"
+          css="md:hidden z-50"
           menuIsActive={menuIsActive}
           onClick={setMenuIsActive}
         />

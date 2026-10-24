@@ -1,13 +1,13 @@
 import React from "react";
 import { MainLayout } from "../components/layout/main-layout";
 import { ShoppingBag } from "lucide-react";
-import { Button } from "~/components/button";
+import { Button } from "~/components/ui/button";
 import { CartList } from "~/components/cart_list/cart-list";
 
 export default function YourBagRoute() {
   return (
-    <MainLayout css="h-full flex justify-center">
-      <div className="max-w-5xl  mb-6 h-full w-full">
+    <MainLayout>
+      <div className="max-w-5xl mb-6 h-full w-full">
         <h1 className="flex gap-1 text-xl sm:text-3xl font-bold items-center">
           <ShoppingBag />
           Your bag

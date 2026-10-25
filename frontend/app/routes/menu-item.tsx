@@ -6,7 +6,7 @@ import type {
   MenuImage
 } from "~/components/menu/menu.types";
 import { env } from "../env";
-import { Image } from "~/components/image";
+import { Image } from "~/components/ui/image";
 import { MainLayout } from "~/components/layout/main-layout";
 import { Button } from "~/components/button";
 import { Translate } from "~/components/transitions/translate";

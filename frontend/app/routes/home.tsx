@@ -1,6 +1,6 @@
 import type { Route } from "./+types/home";
 import { Hero } from "~/components/hero";
-import { Image } from "~/components/image";
+import { Image } from "~/components/ui/image";
 import { MainLayout } from "~/components/layout/main-layout";
 import { Link } from "~/components/link";
 

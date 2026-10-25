@@ -1,6 +1,6 @@
 import React from "react";
 import { Trash, Plus, Minus } from "lucide-react";
-import { Image } from "../image";
+import { Image } from "~/components/ui/image";
 import type { CartItem } from "~/services";
 export function CartItem({ item }: { item: CartItem }) {
   return (

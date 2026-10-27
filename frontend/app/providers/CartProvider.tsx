@@ -38,7 +38,7 @@ export function CartProvider({
       const items = await cartService.getItems();
       setItems(items);
     }
-    loadCart();
+    // loadCart();
   }, [isLoggedIn]);
 
   async function addItem(item: CartItem) {

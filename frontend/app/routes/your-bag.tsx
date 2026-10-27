@@ -40,7 +40,7 @@ export default function YourBagRoute() {
             onUpdateItem={updateItem}
             onRemoveItem={removeItem}
           />
-          <CheckoutSection totalCents={1000} />
+          {items.length && <CheckoutSection totalCents={1000} />}
         </Container>
       </Container>
     </MainLayout>

@@ -2,7 +2,27 @@ import React from "react";
 import { Trash, Plus, Minus } from "lucide-react";
 import { Image } from "~/components/ui/image";
 import type { CartItem } from "~/services";
-export function CartItem({ item }: { item: CartItem }) {
+export function CartItem({
+  item,
+  onUpdateItem,
+  onRemoveItem
+}: {
+  item: CartItem;
+  onUpdateItem(item: CartItem, value: number): void | Promise<void>;
+  onRemoveItem(item: CartItem): void | Promise<void>;
+}) {
+  async function handleIncrement() {
+    await onUpdateItem(item, item.quantity + 1);
+  }
+
+  async function handleDecrement() {
+    await onUpdateItem(item, item.quantity - 1);
+  }
+
+  async function handleDelete() {
+    await onRemoveItem(item);
+  }
+
   return (
     <article className="overflow-hidden p-2 sm:p-4 grid gap-4 grid-cols-[100px_1fr] sm:grid-cols-[120px_1fr] shadow-sm rounded-sm border-1 border-solid border-purple-100">
       <Image
@@ -19,18 +39,27 @@ export function CartItem({ item }: { item: CartItem }) {
               $ {(item.menuItem.price_cents / 100).toFixed(2)}
             </p>
           </div>
-          <button className="cursor-pointer block p-1 rounded-sm border-red-300 bg-red-100/50 border-solid border-1 w-min h-min active:scale-95">
+          <button
+            onClick={handleDelete}
+            className="cursor-pointer block p-1 rounded-sm border-red-300 bg-red-100/50 border-solid border-1 w-min h-min active:scale-95"
+          >
             <Trash color="red" width={14} height={14} />
           </button>
         </div>
 
         <div className="text-sm  flex justify-between mbs-auto mbe-0">
           <div className="flex gap-1 ">
-            <button className="cursor-pointer border-1 border-solid border-purple-400 p-1 bg-purple-100/80 rounded-sm items-center active:scale-95">
+            <button
+              onClick={handleDecrement}
+              className="cursor-pointer border-1 border-solid border-purple-400 p-1 bg-purple-100/80 rounded-sm items-center active:scale-95"
+            >
               <Minus width={14} height={14} />
             </button>
             <span className="text-base flex items-center">{item.quantity}</span>
-            <button className="cursor-pointer border-1 border-solid border-purple-400 p-1 bg-purple-100/80 rounded-sm items-center active:scale-95">
+            <button
+              onClick={handleIncrement}
+              className="cursor-pointer border-1 border-solid border-purple-400 p-1 bg-purple-100/80 rounded-sm items-center active:scale-95"
+            >
               <Plus width={14} height={14} />
             </button>
           </div>

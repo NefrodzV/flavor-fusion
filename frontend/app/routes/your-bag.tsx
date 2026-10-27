@@ -4,6 +4,7 @@ import { ShoppingBag } from "lucide-react";
 import { Heading, Container } from "~/components/ui";
 import { CartSection, CheckoutSection } from "~/features/cart";
 import type { CartItem } from "~/services";
+import { useCart } from "~/providers/CartProvider";
 
 const DUMMY_ITEMS: CartItem[] = [
   {
@@ -18,6 +19,9 @@ const DUMMY_ITEMS: CartItem[] = [
 ];
 export default function YourBagRoute() {
   // TODO: Implement the cart hook here
+
+  const { items, updateItem, removeItem } = useCart();
+
   return (
     <MainLayout>
       <Container className="m-auto max-w-5xl mb-6 h-full w-full flex-col">
@@ -31,7 +35,11 @@ export default function YourBagRoute() {
         </Heading>
 
         <Container className="h-full grid grid-cols-1 md:grid-cols-3 gap-2">
-          <CartSection items={DUMMY_ITEMS} />
+          <CartSection
+            items={items}
+            onUpdateItem={updateItem}
+            onRemoveItem={removeItem}
+          />
           <CheckoutSection totalCents={1000} />
         </Container>
       </Container>

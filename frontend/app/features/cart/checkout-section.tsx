@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "~/components/ui/button";
+import { Button } from "~/components/ui";
 export function CheckoutSection({ totalCents }: { totalCents: number }) {
   return (
     <section className="w-full rounded-sm shadow-sm p-3 h-min border-1 border-purple-100 md:col-span-auto">

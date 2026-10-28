@@ -17,7 +17,7 @@ const DUMMY_ITEMS: CartItem[] = [
     quantity: 1
   }
 ];
-export default function YourBagRoute() {
+export default function CartRoute() {
   // TODO: Implement the cart hook here
 
   const { items, updateItem, removeItem } = useCart();

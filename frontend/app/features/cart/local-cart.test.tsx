@@ -46,8 +46,8 @@ test("CartList is not empty and checkout section is rendered", async () => {
   );
 
   render(<CartRouteComponent />);
-  const cartMessage = await screen.findByText("Chicken & Rice Bowl");
+  const cartItemName = await screen.findByText("Chicken & Rice Bowl");
   const checkoutSection = await screen.findByTestId("checkout-section");
-  expect(cartMessage).toBeInTheDocument();
+  expect(cartItemName).toBeInTheDocument();
   expect(checkoutSection).toBeInTheDocument();
 });

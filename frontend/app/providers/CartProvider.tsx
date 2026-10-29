@@ -36,9 +36,9 @@ export function CartProvider({
   useEffect(() => {
     async function loadCart() {
       const items = await cartService.getItems();
-      setItems(items);
+      setItems(items || []);
     }
-    // loadCart();
+    loadCart();
   }, [isLoggedIn]);
 
   async function addItem(item: CartItem) {

@@ -2,7 +2,10 @@ import React from "react";
 import { Button } from "~/components/ui";
 export function CheckoutSection({ totalCents }: { totalCents: number }) {
   return (
-    <section className="w-full rounded-sm shadow-sm p-3 h-min border-1 border-purple-100 md:col-span-auto">
+    <section
+      data-testid="checkout-section"
+      className="w-full rounded-sm shadow-sm p-3 h-min border-1 border-purple-100 md:col-span-auto"
+    >
       <h2 className="text-base sm:text-xl font-bold">Order Summary</h2>
       <hr className="border-t border-gray-200" />
       <div className="flex justify-between py-2">

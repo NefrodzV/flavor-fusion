@@ -44,6 +44,7 @@ export function CartItem({
             </p>
           </div>
           <button
+            data-testid={`${item.menuItem.slug}-delete`}
             onClick={handleDelete}
             className="cursor-pointer block p-1 rounded-sm border-red-300 bg-red-100/50 border-solid border-1 w-min h-min active:scale-95"
           >

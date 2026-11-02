@@ -41,8 +41,10 @@ export class LocalCartService implements ICartService {
 
   async removeItem(item: CartItem): Promise<void> {
     const items = await this.getItems();
-    items.filter((i) => i.menuItem.slug !== item.menuItem.slug);
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(items));
+    const filtered = items.filter(
+      (i) => i.menuItem.slug !== item.menuItem.slug
+    );
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(filtered));
   }
 
   async updateItem(item: CartItem, quantity: number): Promise<void> {

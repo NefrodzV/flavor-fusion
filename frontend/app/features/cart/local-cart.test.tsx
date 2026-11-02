@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import { expect, test } from "vitest";
 import { CartProvider, AuthProvider } from "~/providers";
 import CartRoute from "./cart-route";
@@ -155,4 +155,44 @@ test("Quantity decreases when the minus button is pressed", async () => {
 
   expect(secondItemQuantity).toHaveTextContent("2");
   expect(firstItemQuantity).toHaveTextContent("1");
+});
+
+test("Item is delete successfully", async () => {
+  const user = userEvent.setup();
+  localStorage.setItem(
+    "flavor_fusion_cart",
+    JSON.stringify([
+      {
+        menuItem: {
+          id: 1,
+          name: "Chicken & Rice Bowl",
+          slug: "chicken-rice-bowl",
+          price_cents: 1000,
+          images: ["/chicken-rice-plate-small.png"]
+        },
+        quantity: 1
+      },
+      {
+        menuItem: {
+          id: 2,
+          name: "Sushi Serenade",
+          slug: "sushi-serenade",
+          price_cents: 1200,
+          images: ["/sushi-serenade-small.png"]
+        },
+        quantity: 3
+      }
+    ])
+  );
+  render(<CartRouteComponent />);
+  const firstItem = await screen.findByTestId("chicken-rice-bowl");
+  const deleteButton = await within(firstItem).findByTestId(
+    "chicken-rice-bowl-delete"
+  );
+
+  await user.click(deleteButton);
+  await waitFor(() =>
+    expect(screen.queryByTestId("chicken-rice-bowl")).not.toBeInTheDocument()
+  );
+  expect(await screen.findByTestId("sushi-serenade")).toBeInTheDocument();
 });

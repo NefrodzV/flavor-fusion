@@ -45,8 +45,13 @@ export class LocalCartService implements ICartService {
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(items));
   }
 
-  // TODO: Update this function
-  async updateItem(item: CartItem, quantity: number): Promise<void> {}
+  async updateItem(item: CartItem, quantity: number): Promise<void> {
+    const items = await this.getItems();
+    const updated = items.map((i) =>
+      i.menuItem.slug === item.menuItem.slug ? { ...i, quantity } : i
+    );
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(updated));
+  }
 
   async clear(): Promise<void> {
     localStorage.removeItem(this.STORAGE_KEY);

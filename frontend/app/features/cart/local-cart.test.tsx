@@ -1,8 +1,9 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { expect, test } from "vitest";
 import { CartProvider, AuthProvider } from "~/providers";
 import CartRoute from "./cart-route";
 import { MemoryRouter } from "react-router";
+import userEvent from "@testing-library/user-event";
 
 const CartRouteComponent = () => {
   return (
@@ -37,6 +38,7 @@ test("CartList is not empty and checkout section is rendered", async () => {
         menuItem: {
           id: 1,
           name: "Chicken & Rice Bowl",
+          slug: "chicken-rice-bowl",
           price_cents: 1000,
           images: ["/chicken-rice-plate-small.png"]
         },
@@ -50,4 +52,107 @@ test("CartList is not empty and checkout section is rendered", async () => {
   const checkoutSection = await screen.findByTestId("checkout-section");
   expect(cartItemName).toBeInTheDocument();
   expect(checkoutSection).toBeInTheDocument();
+});
+
+test("Quantity increases when plus button is pressed", async () => {
+  const user = userEvent.setup();
+  localStorage.setItem(
+    "flavor_fusion_cart",
+    JSON.stringify([
+      {
+        menuItem: {
+          id: 1,
+          name: "Chicken & Rice Bowl",
+          slug: "chicken-rice-bowl",
+          price_cents: 1000,
+          images: ["/chicken-rice-plate-small.png"]
+        },
+        quantity: 1
+      },
+      {
+        menuItem: {
+          id: 2,
+          name: "Sushi Serenade",
+          slug: "sushi-serenade",
+          price_cents: 1200,
+          images: ["/sushi-serenade-small.png"]
+        },
+        quantity: 3
+      }
+    ])
+  );
+  render(<CartRouteComponent />);
+  const firstItem = await screen.findByTestId("chicken-rice-bowl");
+
+  const firstItemIncrement = await within(firstItem).findByTestId(
+    "chicken-rice-bowl-increment"
+  );
+
+  const firstItemQuantity = await within(firstItem).findByTestId(
+    "chicken-rice-bowl-quantity"
+  );
+
+  const secondItem = await screen.findByTestId("sushi-serenade");
+
+  const secondItemQuantity = await within(secondItem).findByTestId(
+    "sushi-serenade-quantity"
+  );
+
+  await user.click(firstItemIncrement);
+
+  expect(firstItemQuantity).toHaveTextContent("2");
+  expect(secondItemQuantity).toHaveTextContent("3");
+});
+
+test("Quantity decreases when the minus button is pressed", async () => {
+  const user = userEvent.setup();
+  localStorage.setItem(
+    "flavor_fusion_cart",
+    JSON.stringify([
+      {
+        menuItem: {
+          id: 1,
+          name: "Chicken & Rice Bowl",
+          slug: "chicken-rice-bowl",
+          price_cents: 1000,
+          images: ["/chicken-rice-plate-small.png"]
+        },
+        quantity: 1
+      },
+      {
+        menuItem: {
+          id: 2,
+          name: "Sushi Serenade",
+          slug: "sushi-serenade",
+          price_cents: 1200,
+          images: ["/sushi-serenade-small.png"]
+        },
+        quantity: 3
+      }
+    ])
+  );
+  render(<CartRouteComponent />);
+  const firstItem = await screen.findByTestId("chicken-rice-bowl");
+
+  const firstItemIncrement = await within(firstItem).findByTestId(
+    "chicken-rice-bowl-increment"
+  );
+
+  const firstItemQuantity = await within(firstItem).findByTestId(
+    "chicken-rice-bowl-quantity"
+  );
+
+  const secondItem = await screen.findByTestId("sushi-serenade");
+
+  const secondItemDecrement = await within(secondItem).findByTestId(
+    "sushi-serenade-decrement"
+  );
+  const secondItemQuantity = await within(secondItem).findByTestId(
+    "sushi-serenade-quantity"
+  );
+
+  await user.click(secondItemDecrement);
+
+  expect(secondItemQuantity).toHaveTextContent("2");
+  expect(firstItemQuantity).toHaveTextContent("1");
 });

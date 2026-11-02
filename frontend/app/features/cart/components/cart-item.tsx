@@ -16,6 +16,7 @@ export function CartItem({
   }
 
   async function handleDecrement() {
+    if (item.quantity <= 1) return;
     await onUpdateItem(item, item.quantity - 1);
   }
 
@@ -24,14 +25,17 @@ export function CartItem({
   }
 
   return (
-    <article className="overflow-hidden p-2 sm:p-4 grid gap-4 grid-cols-[100px_1fr] sm:grid-cols-[120px_1fr] shadow-sm rounded-sm border-1 border-solid border-purple-100">
+    <article
+      data-testid={item.menuItem.slug}
+      className="overflow-hidden p-2 sm:p-4 grid gap-4 grid-cols-[100px_1fr] sm:grid-cols-[120px_1fr] shadow-sm rounded-sm border-1 border-solid border-purple-100"
+    >
       <Image
         css={"block h-24 sm:h-28 w-full rounded-sm object-cover"}
         src="/chicken-rice-plate-small.jpg"
       />
       <div className=" flex flex-col">
         <div className="flex justify-between gap-1">
-          <div className="">
+          <div>
             <h3 className="text-base md:text-lg font-semibold ">
               {item.menuItem.name}
             </h3>
@@ -50,13 +54,23 @@ export function CartItem({
         <div className="text-sm  flex justify-between mbs-auto mbe-0">
           <div className="flex gap-1 ">
             <button
+              aria-label="Decrease quantity"
+              data-testid={`${item.menuItem.slug}-decrement`}
               onClick={handleDecrement}
               className="cursor-pointer border-1 border-solid border-purple-400 p-1 bg-purple-100/80 rounded-sm items-center active:scale-95"
+              disabled={item.quantity <= 1}
             >
               <Minus width={14} height={14} />
             </button>
-            <span className="text-base flex items-center">{item.quantity}</span>
+            <span
+              className="text-base flex items-center"
+              data-testid={`${item.menuItem.slug}-quantity`}
+            >
+              {item.quantity}
+            </span>
             <button
+              aria-label="Increase quantity"
+              data-testid={`${item.menuItem.slug}-increment`}
               onClick={handleIncrement}
               className="cursor-pointer border-1 border-solid border-purple-400 p-1 bg-purple-100/80 rounded-sm items-center active:scale-95"
             >

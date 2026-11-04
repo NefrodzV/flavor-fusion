@@ -9,10 +9,23 @@ interface AuthContextType {
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
+export interface IUser {
+  username: string;
+}
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+interface AuthProviderProps {
+  children: ReactNode;
+  initialUser?: IUser | null;
+}
+export function AuthProvider({
+  children,
+  initialUser = null
+}: AuthProviderProps) {
+  const [user, setUser] = useState<IUser | null>(initialUser);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!user);
 
+  console.log("initial user", user);
+  console.log("Is logged in in auth provider", isLoggedIn);
   const register = () => {};
   const login = () => {};
   const logout = () => {};

@@ -2,17 +2,20 @@ import { MemoryRouter } from "react-router";
 import { CartProvider, AuthProvider } from "~/providers";
 import CartRoute from "./cart-route";
 import type { IUser } from "~/providers/AuthProvider";
+import type { ICartService } from "~/services";
 interface CartRouteComponentProps {
   initialUser?: IUser | null;
+  cartServiceProp?: ICartService | null;
 }
-// TODO: NEED TO MOCK ICartService
+
 export const CartRouteComponent = ({
-  initialUser = null
+  initialUser = null,
+  cartServiceProp = null
 }: CartRouteComponentProps) => {
   return (
     <MemoryRouter>
       <AuthProvider initialUser={initialUser}>
-        <CartProvider>
+        <CartProvider cartServiceProp={cartServiceProp}>
           <CartRoute />
         </CartProvider>
       </AuthProvider>

@@ -24,7 +24,7 @@ export function CartProvider({
   cartServiceProp
 }: {
   children: ReactNode;
-  cartServiceProp?: ICartService;
+  cartServiceProp?: ICartService | null;
 }) {
   const { isLoggedIn } = useAuth();
   const [items, setItems] = useState<CartItem[]>([]);

@@ -1,5 +1,5 @@
 import React from "react";
-import { Image } from "../ui/image";
+import { Image } from "~/components/ui/image";
 import { Link } from "react-router";
 import type { MenuProps, MenuImage } from "~/services";
 const apiUrl = import.meta.env.VITE_API_URL;

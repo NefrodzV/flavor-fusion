@@ -4,14 +4,14 @@ import type {
   MenuItemResponse,
   MenuItem,
   MenuImage
-} from "~/components/menu/menu.types";
-import { env } from "../env";
+} from "~/services/menu/menu-types";
+import { env } from "~/env";
 import { Image } from "~/components/ui/image";
 import { MainLayout } from "~/components/layout/main-layout";
-import { Button } from "~/components/button";
+import { Button } from "~/components/ui/button";
 import { Translate } from "~/components/transitions/translate";
 import { getMenuItem } from "~/services/menu/menu-api";
-export default function MenuItemPage() {
+export default function MenuItemRoute() {
   const [menuItem, setMenuItem] = useState<MenuItem | null>(null);
   const params = useParams();
 

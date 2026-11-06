@@ -11,7 +11,7 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export default function Home() {
+export default function HomeRoute() {
   return (
     <MainLayout css="px-[10%] py-[5%] flex justify-center">
       <Hero css="grid lg:grid-cols-[.6fr_.4fr] gap-4 grid-cols-1 max-w-5xl">

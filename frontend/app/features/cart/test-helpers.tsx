@@ -12,6 +12,7 @@ export const CartRouteComponent = ({
   initialUser = null,
   cartServiceProp = null
 }: CartRouteComponentProps) => {
+  console.log("Initial user in carr route component", initialUser);
   return (
     <MemoryRouter>
       <AuthProvider initialUser={initialUser}>

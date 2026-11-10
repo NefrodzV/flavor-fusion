@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 interface AuthContextType {
   isLoggedIn: boolean;
@@ -22,10 +22,8 @@ export function AuthProvider({
   initialUser = null
 }: AuthProviderProps) {
   const [user, setUser] = useState<IUser | null>(initialUser);
-  const [isLoggedIn, setIsLoggedIn] = useState(!!user);
+  const isLoggedIn = !!user;
 
-  console.log("initial user", user);
-  console.log("Is logged in in auth provider", isLoggedIn);
   const register = () => {};
   const login = () => {};
   const logout = () => {};

@@ -82,3 +82,16 @@ test("Removed is called", async () => {
   await user.click(deleteButton);
   expect(cartServiceMock.removeItem).toHaveBeenCalled();
 });
+
+test("Checkout action button is rendered when user is logged in", async () => {
+  render(
+    <CartRouteComponent
+      initialUser={{ username: "John Mark" }}
+      cartServiceProp={cartServiceMock}
+    />
+  );
+  const actionButton = await screen.findByTestId("checkout-action");
+  expect(actionButton).toBeInTheDocument();
+  const loginLink = screen.queryByTestId("login-link");
+  expect(loginLink).not.toBeInTheDocument();
+});

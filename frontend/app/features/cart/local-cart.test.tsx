@@ -196,3 +196,36 @@ test("Item is delete successfully", async () => {
   );
   expect(await screen.findByTestId("sushi-serenade")).toBeInTheDocument();
 });
+
+test("Checkout action button is rendered when user is logged in", async () => {
+  localStorage.setItem(
+    "flavor_fusion_cart",
+    JSON.stringify([
+      {
+        menuItem: {
+          id: 1,
+          name: "Chicken & Rice Bowl",
+          slug: "chicken-rice-bowl",
+          price_cents: 1000,
+          images: ["/chicken-rice-plate-small.png"]
+        },
+        quantity: 1
+      },
+      {
+        menuItem: {
+          id: 2,
+          name: "Sushi Serenade",
+          slug: "sushi-serenade",
+          price_cents: 1200,
+          images: ["/sushi-serenade-small.png"]
+        },
+        quantity: 3
+      }
+    ])
+  );
+  render(<CartRouteComponent />);
+  const loginLink = await screen.findByTestId("login-link");
+  expect(loginLink).toBeInTheDocument();
+  const checkoutAction = screen.queryByTestId("checkout-action");
+  expect(checkoutAction).not.toBeInTheDocument();
+});

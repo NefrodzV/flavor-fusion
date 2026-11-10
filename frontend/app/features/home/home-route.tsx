@@ -1,4 +1,4 @@
-import type { Route } from "./+types/home";
+import type { Route } from "./+types/home-route";
 import { Hero } from "~/components/hero";
 import { Image } from "~/components/ui/image";
 import { MainLayout } from "~/components/layout/main-layout";

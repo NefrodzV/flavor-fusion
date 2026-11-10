@@ -5,6 +5,7 @@ import { Heading, Container } from "~/components/ui";
 import { CartSection, CheckoutSection } from "./components";
 import type { CartItem } from "~/services";
 import { useCart } from "~/providers/CartProvider";
+import { useAuth } from "~/providers/AuthProvider";
 
 const DUMMY_ITEMS: CartItem[] = [
   {
@@ -21,6 +22,10 @@ export default function CartRoute() {
   // TODO: Implement the cart hook here
 
   const { items, updateItem, removeItem } = useCart();
+  console.log(items, "items in cart route");
+  const { isLoggedIn } = useAuth();
+
+  console.log(isLoggedIn, "user is authenticated");
 
   return (
     <MainLayout>
@@ -42,7 +47,12 @@ export default function CartRoute() {
             onUpdateItem={updateItem}
             onRemoveItem={removeItem}
           />
-          {items.length > 0 && <CheckoutSection totalCents={1000} />}
+          {items.length > 0 && (
+            <CheckoutSection
+              totalCents={1000}
+              userIsAuthenticated={isLoggedIn}
+            />
+          )}
         </Container>
       </Container>
     </MainLayout>

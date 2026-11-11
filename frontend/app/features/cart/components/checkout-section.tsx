@@ -34,13 +34,15 @@ export function CheckoutSection({
           Proceed to checkout
         </Button>
       ) : (
-        <div>
-          <p>You must log in to checkout</p>
+        <div className="flex flex-col gap-1">
+          <p className="text-center text-gray-500 ">
+            You must log in to checkout
+          </p>
           <NavLink
             data-testid="login-link"
             to={"/login"}
             className={
-              "p-[.5rem] bg-purple-500 rounded-sm hover:bg-purple-400 cursor-pointer text-white font-bold active:scale-95"
+              "text-center p-[.5rem] bg-purple-500 rounded-sm hover:bg-purple-400 cursor-pointer text-white font-bold active:scale-95 w-full"
             }
           >
             Go to log in

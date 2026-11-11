@@ -1,6 +1,7 @@
 import React from "react";
 import type { CartItem as CartItemType } from "~/services";
 import { CartItem } from "./cart-item";
+import { EmptyCartMessage } from "./empty-cart-message";
 interface CartListType {
   items: CartItemType[];
   onUpdateItem(item: CartItemType, value: number): void | Promise<void>;
@@ -8,7 +9,7 @@ interface CartListType {
 }
 export function CartList({ items, onUpdateItem, onRemoveItem }: CartListType) {
   if (items.length === 0) {
-    return <p className="flex justify-center">Your bag has no items</p>;
+    return <EmptyCartMessage />;
   }
   console.log(items);
   return (

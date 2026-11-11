@@ -1,8 +1,6 @@
 import { render, screen, waitFor, within } from "@testing-library/react";
 import { expect, test } from "vitest";
 import { CartRouteComponent } from "./test-helpers";
-import type { ICartService } from "~/services";
-import type { CartItem } from "~/services";
 import userEvent from "@testing-library/user-event";
 
 // 1. Define internal mock state

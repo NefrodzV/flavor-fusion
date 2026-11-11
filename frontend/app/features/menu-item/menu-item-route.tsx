@@ -11,7 +11,9 @@ import { MainLayout } from "~/components/layout/main-layout";
 import { Button } from "~/components/ui/button";
 import { Translate } from "~/components/transitions/translate";
 import { getMenuItem } from "~/services/menu/menu-api";
+import { useCart } from "~/providers/CartProvider";
 export default function MenuItemRoute() {
+  const { addItem } = useCart();
   const [menuItem, setMenuItem] = useState<MenuItem | null>(null);
   const params = useParams();
 
@@ -64,7 +66,16 @@ export default function MenuItemRoute() {
                 <span className="text-lg font-semibold text-gray-900">
                   ${(menuItem.price_cents / 100).toFixed(2)}
                 </span>
-                <Button>Add to Order</Button>
+                <Button
+                  onClick={() => {
+                    addItem({
+                      menuItem: menuItem,
+                      quantity: 1
+                    });
+                  }}
+                >
+                  Add to Order
+                </Button>
               </div>
             </div>
           </article>

@@ -19,13 +19,8 @@ const DUMMY_ITEMS: CartItem[] = [
   }
 ];
 export default function CartRoute() {
-  // TODO: Implement the cart hook here
-
   const { items, updateItem, removeItem } = useCart();
-  console.log(items, "items in cart route");
   const { isLoggedIn } = useAuth();
-
-  console.log(isLoggedIn, "user is authenticated");
 
   return (
     <MainLayout>

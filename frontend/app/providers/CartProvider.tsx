@@ -39,7 +39,6 @@ export function CartProvider({
       setItems(items || []);
     }
     loadCart();
-    console.log("User is logged in:", isLoggedIn);
   }, [isLoggedIn]);
 
   async function addItem(item: CartItem) {

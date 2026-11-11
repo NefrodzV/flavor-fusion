@@ -9,7 +9,6 @@ export function CheckoutSection({
   totalCents: number;
   userIsAuthenticated: boolean;
 }) {
-  console.log(userIsAuthenticated);
   return (
     <section
       data-testid="checkout-section"
@@ -35,13 +34,18 @@ export function CheckoutSection({
           Proceed to checkout
         </Button>
       ) : (
-        <NavLink
-          data-testid="login-link"
-          to={"/login"}
-          className={
-            "p-[.5rem] bg-purple-500 rounded-sm hover:bg-purple-400 cursor-pointer text-white font-bold active:scale-95"
-          }
-        />
+        <div>
+          <p>You must log in to checkout</p>
+          <NavLink
+            data-testid="login-link"
+            to={"/login"}
+            className={
+              "p-[.5rem] bg-purple-500 rounded-sm hover:bg-purple-400 cursor-pointer text-white font-bold active:scale-95"
+            }
+          >
+            Go to log in
+          </NavLink>
+        </div>
       )}
       {/* Maybe add icons for payments
                   google pay appple pay, etc

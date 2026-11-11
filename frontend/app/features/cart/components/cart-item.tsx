@@ -11,6 +11,7 @@ export function CartItem({
   onUpdateItem(item: CartItem, value: number): void | Promise<void>;
   onRemoveItem(item: CartItem): void | Promise<void>;
 }) {
+  const decreaseIsDisabled = item.quantity <= 1;
   async function handleIncrement() {
     await onUpdateItem(item, item.quantity + 1);
   }
@@ -46,7 +47,7 @@ export function CartItem({
           <button
             data-testid={`${item.menuItem.slug}-delete`}
             onClick={handleDelete}
-            className="cursor-pointer block p-1 rounded-sm border-red-300 bg-red-100/50 border-solid border-1 w-min h-min active:scale-95"
+            className={`cursor-pointer block p-1 rounded-sm border-red-300 bg-red-100/50 border-solid border-1 w-min h-min active:scale-95`}
           >
             <Trash color="red" width={14} height={14} />
           </button>
@@ -58,8 +59,8 @@ export function CartItem({
               aria-label="Decrease quantity"
               data-testid={`${item.menuItem.slug}-decrement`}
               onClick={handleDecrement}
-              className="cursor-pointer border-1 border-solid border-purple-400 p-1 bg-purple-100/80 rounded-sm items-center active:scale-95"
-              disabled={item.quantity <= 1}
+              className={`cursor-pointer border-1 border-solid  p-1 rounded-sm items-center ${decreaseIsDisabled ? "border-gray-400 bg-gray-100" : "active:scale-95 border-purple-400 bg-purple-100/80 active:none"}`}
+              disabled={decreaseIsDisabled}
             >
               <Minus width={14} height={14} />
             </button>

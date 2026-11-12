@@ -4,3 +4,4 @@ export { Heading } from "./heading";
 export { Image } from "./image";
 export { Wrapper } from "./wrapper";
 export { Container } from "./container";
+export { Card } from "./card";

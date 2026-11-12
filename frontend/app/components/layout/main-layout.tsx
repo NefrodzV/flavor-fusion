@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Header } from "./header";
+import { MainContainer } from "./main-container";
 
 export function MainLayout({
   children,
@@ -30,7 +31,7 @@ export function MainLayout({
   return (
     <div className="relative min-h-screen flex flex-col">
       <Header menuIsActive={menuIsOpen} setMenuIsActive={setMenuIsOpen} />
-      <main className={`px-2 sm:px-4 py-2`}>{children}</main>
+      <MainContainer>{children}</MainContainer>
     </div>
   );
 }

@@ -14,7 +14,7 @@ export function Heading({
   as: "h1" | "h2" | "h3" | "h4" | "h5";
   children: React.ReactNode;
   fontSize: keyof typeof fontSizes;
-  className: string;
+  className?: string;
 }) {
   return (
     <Element className={`${fontSizes[fontSize]} ${className}`}>

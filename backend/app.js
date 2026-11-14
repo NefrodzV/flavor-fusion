@@ -43,10 +43,8 @@ export function createApp({
         logError(err)
         const status = err.statusCode || 500
         return res.status(status).json({
-            error: {
-                message: err.message || 'Internal Server Error',
-                errors: err.errors || undefined,
-            },
+            message: err.message || 'Internal Server Error',
+            fields: err.errors || undefined,
         })
     })
     return app

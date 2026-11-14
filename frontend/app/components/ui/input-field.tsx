@@ -3,10 +3,11 @@ import { Container } from "./container";
 interface InputLabelProps {
   label: string;
   value: string;
+  error: string;
   onChange: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export function InputField({ label, value, onChange }: InputLabelProps) {
+export function InputField({ label, value, error, onChange }: InputLabelProps) {
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const isActive = isFocused || value.length > 0;
   return (
@@ -27,7 +28,7 @@ export function InputField({ label, value, onChange }: InputLabelProps) {
           onBlur={() => setIsFocused(false)}
         />
       </Container>
-      <span className="text-red-400 px-1">Error in input here</span>
+      {error && <span className="text-red-400 px-1">{error}</span>}
     </Container>
   );
 }

@@ -1,20 +1,30 @@
 import type { ReactNode } from "react";
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useMemo } from "react";
+import { AuthApiService } from "~/services/auth/auth-api";
 
 interface AuthContextType {
   isLoggedIn: boolean;
-  login: () => void;
+  user: IUser | null;
+  login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
-  register: () => void;
+  register: (
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string
+  ) => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
 export interface IUser {
-  username: string;
+  firstName: string;
+  lastName: string;
+  email: string;
 }
 
 interface AuthProviderProps {
   children: ReactNode;
+
   initialUser?: IUser | null;
 }
 export function AuthProvider({
@@ -24,11 +34,30 @@ export function AuthProvider({
   const [user, setUser] = useState<IUser | null>(initialUser);
   const isLoggedIn = !!user;
 
-  const register = () => {};
-  const login = () => {};
+  const authService = useMemo(() => new AuthApiService(), []);
+
+  const register = async (
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string
+  ) => {
+    const res = await authService.register(
+      firstName,
+      lastName,
+      email,
+      password
+    );
+    setUser(res.user || null);
+  };
+
+  const login = async (email: string, password: string): Promise<boolean> => {
+    const res = await authService.login(email, password);
+    setUser(res.user || null);
+  };
   const logout = () => {};
   return (
-    <AuthContext.Provider value={{ isLoggedIn, register, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, user, register, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

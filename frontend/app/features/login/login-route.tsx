@@ -61,7 +61,7 @@ export default function LoginRoute() {
           <Heading as="h1" fontSize="medium">
             Log in
           </Heading>
-          <Container className="flex flex-col gap-4">
+          <Container className="flex w-full flex-col gap-4">
             <InputField
               label="email"
               value={email}

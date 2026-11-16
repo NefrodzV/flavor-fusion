@@ -11,7 +11,8 @@ interface AuthContextType {
     firstName: string,
     lastName: string,
     email: string,
-    password: string
+    password: string,
+    confirmPassword: string
   ) => Promise<boolean>;
 }
 
@@ -40,13 +41,15 @@ export function AuthProvider({
     firstName: string,
     lastName: string,
     email: string,
-    password: string
+    password: string,
+    confirmPassword: string
   ) => {
     const res = await authService.register(
       firstName,
       lastName,
       email,
-      password
+      password,
+      confirmPassword
     );
     setUser(res.user || null);
   };

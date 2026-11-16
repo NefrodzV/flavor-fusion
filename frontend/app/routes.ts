@@ -5,5 +5,6 @@ export default [
   route("/menu", "features/menu/menu-route.tsx"),
   route("/menu/:slug", "features/menu-item/menu-item-route.tsx"),
   route("/your-bag", "features/cart/cart-route.tsx"),
-  route("/login", "features/login/login-route.tsx")
+  route("/login", "features/login/login-route.tsx"),
+  route("/register", "features/register/register-route.tsx")
 ] satisfies RouteConfig;

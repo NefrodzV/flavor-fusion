@@ -1,10 +1,8 @@
-import { LoaderCircle, LoaderIcon } from "lucide-react";
+import { LoaderIcon } from "lucide-react";
 import React, { useState, type SubmitEvent } from "react";
 import { Link, useNavigate } from "react-router";
-import { NavLink } from "react-router";
 import { LogoSVG } from "~/components/layout/logo-svg";
 import { MainContainer } from "~/components/layout/main-container";
-import { Loader } from "~/components/loader";
 import { Container, Card, Button, Heading, InputField } from "~/components/ui";
 import { useAuth } from "~/providers/AuthProvider";
 
@@ -50,7 +48,7 @@ export default function LoginRoute() {
 
   return (
     <MainContainer className="min-h-screen flex items-center justify-center md:bg-purple-100">
-      <Container className="p-4 flex flex-col gap-2 justify-center items-center md:shadow-sm md:rounded-sm md:border-purple-100 md:border-1 md:bg-white md:min-w-1/2 lg:min-w-1/3 md:min-h-[400px] flex flex-col">
+      <Container className="p-4 flex flex-col gap-2 justify-center items-center w-full md:w-auto md:shadow-sm md:rounded-sm md:border-purple-100 md:border-1 md:bg-white md:min-w-1/2 lg:min-w-1/3 md:min-h-[400px] flex flex-col">
         <form
           className=" w-full flex-1 h-full flex flex-col gap-2 p-2 border-box items-center justify-center"
           onSubmit={onSubmit}

@@ -11,6 +11,7 @@ export function validateRegisterUser(req, _res, next) {
     const lastName = req.body?.lastName
     const email = req.body?.email
     const password = req.body?.password
+    const confirmPassword = req.body?.confirmPassword
 
     if (name == null) {
         errors.name = 'Name is required.'
@@ -48,6 +49,15 @@ export function validateRegisterUser(req, _res, next) {
         errors.password = 'Password must be at least 8 characters long.'
     }
 
+    if (!confirmPassword) {
+        errors.confirmPassword = 'Confirm password is required'
+    } else if (!isString(confirmPassword)) {
+        errors.confirmPassword = 'Password must be a string type.'
+    } else if (!confirmPassword?.trim()) {
+        errors.confirmPassword = 'Password is required.'
+    } else if (confirmPassword !== password) {
+        errors.confirmPassword = 'Password and confirm password are not equal'
+    }
     if (Object.keys(errors).length) {
         return next(new DataIsInvalidError(undefined, errors))
     }

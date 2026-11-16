@@ -14,6 +14,7 @@ export class AuthApiService {
       headers: {
         "Content-Type": "application/json"
       },
+      credentials: "include",
       body: JSON.stringify({ email, password })
     });
     const data = await res.json();
@@ -25,14 +26,21 @@ export class AuthApiService {
     firstName: string,
     lastName: string,
     email: string,
-    password: string
+    password: string,
+    confirmPassword: string
   ): Promise<IApiServiceResponse> {
-    const res = await fetch(`${env.apiUrl}/auth/register`, {
+    const res = await fetch(`${env.apiUrl}/api/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ firstName, lastName, email, password })
+      body: JSON.stringify({
+        name: firstName,
+        lastName,
+        email,
+        password,
+        confirmPassword
+      })
     });
     const data = await res.json();
     if (!res.ok) throw data;

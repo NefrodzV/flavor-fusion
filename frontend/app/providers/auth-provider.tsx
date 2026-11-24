@@ -5,7 +5,7 @@ import { AuthApiService } from "~/services/auth/auth-api";
 interface AuthContextType {
   isLoggedIn: boolean;
   user: IUser | null;
-  login: (email: string, password: string) => Promise<boolean>;
+  login: (email: string, password: string) => void;
   logout: () => void;
   register: (
     firstName: string,
@@ -13,7 +13,7 @@ interface AuthContextType {
     email: string,
     password: string,
     confirmPassword: string
-  ) => Promise<boolean>;
+  ) => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -54,7 +54,7 @@ export function AuthProvider({
     setUser(res.user || null);
   };
 
-  const login = async (email: string, password: string): Promise<boolean> => {
+  const login = async (email: string, password: string) => {
     const res = await authService.login(email, password);
     setUser(res.user || null);
   };

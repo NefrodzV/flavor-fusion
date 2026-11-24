@@ -35,8 +35,8 @@ export default function LoginRoute() {
     setGlobalError("");
     setIsLoading(true);
     try {
-      const result = await login(email, password);
-      if (result) navigate("/menu");
+      await login(email, password);
+      navigate("/menu");
     } catch (error: any) {
       setErrors((prev) => ({ ...prev, ...error.fields }));
       const globalError = error.message;

@@ -11,7 +11,7 @@ import { MainLayout } from "~/components/layout/main-layout";
 import { Button } from "~/components/ui/button";
 import { Translate } from "~/components/transitions/translate";
 import { getMenuItem } from "~/services/menu/menu-api";
-import { useCart } from "~/providers/CartProvider";
+import { useCart } from "~/providers/cart-provider";
 export default function MenuItemRoute() {
   const { addItem } = useCart();
   const [menuItem, setMenuItem] = useState<MenuItem | null>(null);

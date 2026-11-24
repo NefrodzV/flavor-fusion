@@ -4,8 +4,8 @@ import { ShoppingBag } from "lucide-react";
 import { Heading, Container } from "~/components/ui";
 import { CartSection, CheckoutSection } from "./components";
 import type { CartItem } from "~/services";
-import { useCart } from "~/providers/CartProvider";
-import { useAuth } from "~/providers/AuthProvider";
+import { useCart } from "~/providers/cart-provider";
+import { useAuth } from "~/providers/auth-provider";
 
 const DUMMY_ITEMS: CartItem[] = [
   {

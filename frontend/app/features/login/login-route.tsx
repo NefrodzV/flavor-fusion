@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router";
 import { LogoSVG } from "~/components/layout/logo-svg";
 import { MainContainer } from "~/components/layout/main-container";
 import { Container, Card, Button, Heading, InputField } from "~/components/ui";
-import { useAuth } from "~/providers/AuthProvider";
+import { useAuth } from "~/providers/auth-provider";
 
 export default function LoginRoute() {
   const [email, setEmail] = useState("");

@@ -1,5 +1,5 @@
 import { env } from "~/env";
-import type { IUser } from "~/providers/AuthProvider";
+import type { IUser } from "~/providers/auth-provider";
 interface IApiServiceResponse {
   message: string;
   user?: IUser | null;

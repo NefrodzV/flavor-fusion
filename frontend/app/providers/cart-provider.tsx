@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import type { ReactNode } from "react";
 import { CartService } from "~/services/cart/cart-service";
-import { useAuth } from "./AuthProvider";
+import { useAuth } from "./auth-provider";
 import type { CartItem, ICartService } from "~/services";
 
 interface CartContextType {

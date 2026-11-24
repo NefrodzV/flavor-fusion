@@ -13,8 +13,8 @@ import "./app.css";
 import { Nav } from "./components/nav";
 import { useState, useEffect } from "react";
 import { MenuToggle } from "./components/layout/menu-toggle";
-import { AuthProvider } from "./providers/AuthProvider";
-import { CartProvider } from "./providers/CartProvider";
+import { AuthProvider } from "./providers/auth-provider";
+import { CartProvider } from "./providers/cart-provider";
 
 // 1. Centralized navigation configuration
 const NAV_ITEMS = [

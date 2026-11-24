@@ -2,7 +2,7 @@ import React, { type SubmitEvent, useState } from "react";
 import { LogoSVG } from "~/components/layout/logo-svg";
 import { MainContainer } from "~/components/layout/main-container";
 import { Container, Card, Button, Heading, InputField } from "~/components/ui";
-import { useAuth } from "~/providers/AuthProvider";
+import { useAuth } from "~/providers/auth-provider";
 import { Link } from "react-router";
 import { Check, CheckIcon, LoaderIcon } from "lucide-react";
 import { SuccessComponent } from "./success-component";

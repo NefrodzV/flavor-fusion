@@ -1,2 +1,2 @@
-export { CartProvider } from "./CartProvider";
-export { AuthProvider } from "./AuthProvider";
+export { CartProvider } from "./cart-provider";
+export { AuthProvider } from "./auth-provider";

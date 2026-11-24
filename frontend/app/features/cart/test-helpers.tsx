@@ -1,7 +1,7 @@
 import { MemoryRouter } from "react-router";
 import { CartProvider, AuthProvider } from "~/providers";
 import CartRoute from "./cart-route";
-import type { IUser } from "~/providers/AuthProvider";
+import type { IUser } from "~/providers/auth-provider";
 import type { ICartService } from "~/services";
 interface CartRouteComponentProps {
   initialUser?: IUser | null;

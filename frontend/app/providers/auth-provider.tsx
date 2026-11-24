@@ -1,11 +1,11 @@
 import type { ReactNode } from "react";
-import { createContext, useContext, useState, useMemo } from "react";
+import { createContext, useContext, useState, useMemo, useEffect } from "react";
 import { AuthApiService } from "~/services/auth/auth-api";
 
 interface AuthContextType {
   isLoggedIn: boolean;
   user: IUser | null;
-  login: (email: string, password: string) => void;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   register: (
     firstName: string,
@@ -13,7 +13,7 @@ interface AuthContextType {
     email: string,
     password: string,
     confirmPassword: string
-  ) => void;
+  ) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -37,6 +37,15 @@ export function AuthProvider({
 
   const authService = useMemo(() => new AuthApiService(), []);
 
+  useEffect(() => {
+    const getUser = async () => {
+      const res = await authService.getCurrentUser();
+      setUser(res.user || null);
+    };
+
+    getUser();
+  }, []);
+
   const register = async (
     firstName: string,
     lastName: string,
@@ -58,7 +67,9 @@ export function AuthProvider({
     const res = await authService.login(email, password);
     setUser(res.user || null);
   };
+
   const logout = () => {};
+
   return (
     <AuthContext.Provider value={{ isLoggedIn, user, register, login, logout }}>
       {children}

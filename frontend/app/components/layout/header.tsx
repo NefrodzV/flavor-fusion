@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { MainNavigation } from "./main-navigation";
-import { BookOpen, CircleQuestionMark, ShoppingBag, LogIn } from "lucide-react";
+import {
+  BookOpen,
+  CircleQuestionMark,
+  ShoppingBag,
+  LogIn,
+  User
+} from "lucide-react";
 import { MobileNavigation } from "./mobile-navigation.tsx";
 import { MenuToggle } from "./menu-toggle";
 import { Logo } from "./logo";
+import { useAuth } from "~/providers/auth-provider";
 
 const NAV_ITEMS = [
   { text: "menu", icon: BookOpen, link: "/menu" },
@@ -19,6 +26,18 @@ export function Header({
   menuIsActive: boolean;
   setMenuIsActive: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  const { isLoggedIn } = useAuth();
+  const navItems = useMemo(
+    () => [
+      { text: "menu", icon: BookOpen, link: "/menu" },
+      { text: "about us", icon: CircleQuestionMark, link: "/about-us" },
+      { text: "your bag", icon: ShoppingBag, link: "/your-bag" },
+      isLoggedIn
+        ? { text: "profile", icon: User, link: "/user" }
+        : { text: "log in", icon: LogIn, link: "/login" }
+    ],
+    [isLoggedIn]
+  );
   return (
     <div className={`relative w-full flex justify-between items-center z-10`}>
       <header
@@ -30,9 +49,9 @@ export function Header({
           menuIsActive={menuIsActive}
           onClick={setMenuIsActive}
         />
-        <MainNavigation items={NAV_ITEMS} />
+        <MainNavigation items={navItems} />
       </header>
-      <MobileNavigation items={NAV_ITEMS} isOpen={menuIsActive} />
+      <MobileNavigation items={navItems} isOpen={menuIsActive} />
     </div>
   );
 }
